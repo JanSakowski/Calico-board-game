@@ -3,6 +3,9 @@ module com.example.calico {
     requires javafx.fxml;
 
 
-    opens com.example.calico.game to javafx.fxml;
-    exports com.example.calico.game;
+    opens GUI to javafx.fxml;
+    exports GUI;
+
+    opens game;
+    exports game;
 }
