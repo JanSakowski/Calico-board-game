@@ -18,8 +18,18 @@
                   <Image url="@calicoboard-removebg-preview.png" />
                </image>
             </ImageView>
-            <Button fx:id="circleButton" layoutX="264.0" layoutY="334.0" mnemonicParsing="false" onAction="#circlePls" prefHeight="159.0" prefWidth="178.0" text="CirclePls" />
-            <Button fx:id="napis" layoutX="398.0" layoutY="453.0" mnemonicParsing="false" onAction="#napis" prefHeight="150.0" prefWidth="174.0" text="Button" />
+             <Button fx:id="btn11" layoutX="169.0" layoutY="82.0" mnemonicParsing="false" onAction="#btn11" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="513.1999999999999" AnchorPane.leftAnchor="169.0" AnchorPane.rightAnchor="594.2" AnchorPane.topAnchor="82.0" />
+             <Button fx:id="btn12" layoutX="297.0" layoutY="82.0" mnemonicParsing="false" onAction="#btn12" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="513.1999999999999" AnchorPane.leftAnchor="297.0" AnchorPane.rightAnchor="466.20000000000005" AnchorPane.topAnchor="82.0" />
+             <Button fx:id="btn13" layoutX="691.0" layoutY="82.0" mnemonicParsing="false" onAction="#btn15" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="513.1999999999999" AnchorPane.leftAnchor="691.0" AnchorPane.rightAnchor="72.20000000000005" AnchorPane.topAnchor="82.0" />
+             <Button fx:id="btn14" layoutX="565.0" layoutY="82.0" mnemonicParsing="false" onAction="#btn14" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="513.1999999999999" AnchorPane.leftAnchor="565.0" AnchorPane.rightAnchor="198.20000000000005" AnchorPane.topAnchor="82.0" />
+             <Button fx:id="btn15" layoutX="431.0" layoutY="82.0" mnemonicParsing="false" onAction="#btn13" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="513.1999999999999" AnchorPane.leftAnchor="431.0" AnchorPane.rightAnchor="332.20000000000005" AnchorPane.topAnchor="82.0" />
+
+             <Button fx:id="btn21" layoutX="108.0" layoutY="191.0" mnemonicParsing="false" onAction="#btn11" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="404.19999999999993" AnchorPane.leftAnchor="108.0" AnchorPane.rightAnchor="655.2" AnchorPane.topAnchor="191.0" />
+             <Button fx:id="btn22" layoutX="236.0" layoutY="191.0" mnemonicParsing="false" onAction="#btn12" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="404.19999999999993" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="527.2" AnchorPane.topAnchor="191.0" />
+             <Button fx:id="btn23" layoutX="624.0" layoutY="500.0" mnemonicParsing="false" onAction="#btn15" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="404.19999999999993" AnchorPane.leftAnchor="624.0" AnchorPane.rightAnchor="139.20000000000005" AnchorPane.topAnchor="191.0" />
+             <Button fx:id="btn24" layoutX="491.0" layoutY="191.0" mnemonicParsing="false" onAction="#btn14" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="404.19999999999993" AnchorPane.leftAnchor="491.0" AnchorPane.rightAnchor="272.20000000000005" AnchorPane.topAnchor="191.0" />
+             <Button fx:id="btn25" layoutX="364.0" layoutY="191.0" mnemonicParsing="false" onAction="#btn13" prefHeight="159.0" prefWidth="178.0" scaleX="0.75" scaleY="0.75" text="CirclePls" AnchorPane.bottomAnchor="404.19999999999993" AnchorPane.leftAnchor="364.0" AnchorPane.rightAnchor="399.20000000000005" AnchorPane.topAnchor="191.0" />
+
          </children></AnchorPane>
    </center>
    <bottom>
