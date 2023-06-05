@@ -1,0 +1,16 @@
+#circleButton{
+    /*-fx-background-radius: 10em;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;*/
+    -fx-shape: "M 50 5 L 95 50 L 95 90 L 50 135 L 5 90 L 5 50 Z";
+}
+#napis{
+    /*-fx-background-radius: 10em;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-max-width: 30px;
+    -fx-max-height: 30px;*/
+    -fx-shape: "M 50 5 L 95 50 L 95 90 L 50 135 L 5 90 L 5 50 Z";
+}
