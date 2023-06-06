@@ -19,8 +19,6 @@ public class CalicoApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene (root);
-        String css = this.getClass().getResource("demo.css").toExternalForm();
-        scene.getStylesheets().add(css);
         stage.setScene(scene);
         //stage.setResizable(false);
         stage.show();

@@ -1,12 +1,8 @@
-.button{
+.polygon{
     /*-fx-background-radius: 10em;
     -fx-min-width: 30px;
     -fx-min-height: 30px;
     -fx-max-width: 30px;
     -fx-max-height: 30px;*/
-    -fx-shape: "M 300,150 225,280 75,280 0,150 75,20 225,20 z";
-    -fx-rotate: 30deg;
     -fx-background-color: transparent;
-    -fx-border-width: 0.8;
-    -fx-border-color: #000;
 }
