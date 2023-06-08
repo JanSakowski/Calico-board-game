@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -7,179 +9,183 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Polygon?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
-    <center>
-        <AnchorPane  style="-fx-background-color: lightblue;" BorderPane.alignment="CENTER">
-            <children>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="1017.0" fitWidth="912.0" layoutX="-12.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@calicoboard-removebg-preview.png" />
+               </image>
+            </ImageView>
+             <!--
+             UPPER BORDER
+             -->
+             <Polygon fx:id="hex0_0" fill="#daa662" layoutX="132.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex1_0" fill="#daa662" layoutX="238.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex2_0" fill="#daa662" layoutX="344.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex3_0" fill="#daa662" layoutX="450.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex4_0" fill="#daa662" layoutX="556.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex5_0" fill="#daa662" layoutX="661.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex6_0" fill="#daa662" layoutX="767.0" layoutY="77.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <!--
+             LOWER BORDER
+             -->
+             <Polygon fx:id="hex0_6" fill="#daa662" layoutX="133.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex1_6" fill="#daa662" layoutX="238.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex2_6" fill="#daa662" layoutX="344.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex3_6" fill="#daa662" layoutX="450.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex4_6" fill="#daa662" layoutX="556.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex5_6" fill="#daa662" layoutX="662.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex6_6" fill="#daa662" layoutX="768.0" layoutY="628.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <!--
+             LEFT BORDER
+             -->
+             <Polygon fx:id="hex0_1" fill="#daa662" layoutX="185.0" layoutY="170.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex0_2" fill="#daa662" layoutX="133.0" layoutY="261.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex0_3" fill="#daa662" layoutX="186.0" layoutY="353.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex0_4" fill="#daa662" layoutX="133.0" layoutY="444.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex0_5" fill="#daa662" layoutX="186.0" layoutY="535.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <!--
+             RIGHT BORDER
+             -->
+             <Polygon fx:id="hex6_1" fill="#daa662" layoutX="820.0" layoutY="170.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex6_2" fill="#daa662" layoutX="768.0" layoutY="262.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex6_3" fill="#daa662" layoutX="821.0" layoutY="354.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex6_4" fill="#daa662" layoutX="768.0" layoutY="445.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex6_5" fill="#daa662" layoutX="821.0" layoutY="536.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
-                <!--
-                UPPER BORDER
-                -->
-                <Polygon fx:id="hex0_0" fill="#daa662" layoutX="53.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -13.999996185302734, -53.0, -13.999996185302734, -53.0, -10.600006103515625, -53.0, 8.599990844726562" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex1_0" fill="#daa662" layoutX="159.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -13.999996185302734, -53.0, -13.999996185302734, -106.0, -13.999996185302734, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex2_0" fill="#daa662" layoutX="265.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -13.999996185302734, -53.0, -13.999996185302734, -106.0, -13.999996185302734, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex3_0" fill="#daa662" layoutX="371.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -13.999996185302734, -53.0, -13.999996185302734, -106.0, -13.999996185302734, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex4_0" fill="#daa662" layoutX="477.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, -1.0, -13.999996185302734, -53.0, -13.999996185302734, -106.0, -13.999996185302734, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex5_0" fill="#daa662" layoutX="582.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -13.999996185302734, -53.0, -13.999996185302734, -105.0, -13.999996185302734, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex6_0" fill="#daa662" layoutX="688.0" layoutY="14.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -13.999996185302734, -53.0, -13.999996185302734, -106.0, -13.999996185302734, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <!--
-                LOWER BORDER
-                -->
-                <Polygon fx:id="hex0_6" fill="#daa662" layoutX="54.0" layoutY="565.0" points="-53.0, -14.39996337890625, -1.0, -14.0, 0.0, -44.0, -53.0, -77.0, -53.0, -44.0, -53.0, -14.39996337890625" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex1_6" fill="#daa662" layoutX="159.0" layoutY="565.0" points="-53.00001525878906, -14.0, -1.52587890625E-5, -14.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -105.00001525878906, -14.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex2_6" fill="#daa662" layoutX="265.0" layoutY="565.0" points="-53.0, -14.0, 0.0, -14.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.00001525878906, -14.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex3_6" fill="#daa662" layoutX="371.0" layoutY="565.0" points="-53.0, -14.0, 0.0, -14.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, -14.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex4_6" fill="#daa662" layoutX="477.0" layoutY="565.0" points="-53.0, -14.0, 0.0, -14.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, -14.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex5_6" fill="#daa662" layoutX="583.0" layoutY="565.0" points="-53.0, -14.0, 0.0, -14.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, -14.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex6_6" fill="#daa662" layoutX="689.0" layoutY="565.0" points="-52.99993896484375, -14.0, 6.103515625E-5, -14.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, -14.0" stroke="BLACK" strokeType="INSIDE" />
-                <!--
-                LEFT BORDER
-                -->
-                <Polygon fx:id="hex0_1" fill="#daa662" layoutX="106.0" layoutY="107.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex0_2" fill="#daa662" layoutX="54.0" layoutY="198.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -53.00001525878906, -34.59999084472656, -53.00001525878906, 2.20001220703125" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex0_3" fill="#daa662" layoutX="107.0" layoutY="290.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex0_4" fill="#daa662" layoutX="54.0" layoutY="381.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -53.00001525878906, -32.79998779296875, -53.00001525878906, 4.79998779296875" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex0_5" fill="#daa662" layoutX="107.0" layoutY="472.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <!--
-                RIGHT BORDER
-                -->
-                <Polygon fx:id="hex6_1" fill="#daa662" layoutX="741.0" layoutY="107.0" points="-53.0, 49.0, -53.0, -1.1999969482421875, -53.0, -36.40000915527344, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex6_2" fill="#daa662" layoutX="689.0" layoutY="199.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex6_3" fill="#daa662" layoutX="742.0" layoutY="291.0" points="-53.0, 49.0, -52.99993896484375, 7.600006103515625, -52.99993896484375, -27.5999755859375, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex6_4" fill="#daa662" layoutX="689.0" layoutY="382.0" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex6_5" fill="#daa662" layoutX="742.0" layoutY="473.0" points="-53.0, 49.0, -52.99993896484375, 0.0, -52.99993896484375, -53.5999755859375, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
+             <!--
+             THE INSIDE, LINE BY LINE
+             -->
+             <Polygon fx:id="hex1_1" fill="#d7c9b7" layoutX="291.0" layoutY="170.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex1_2" fill="#d7c9b7" layoutX="239.0" layoutY="261.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex1_3" fill="#d7c9b7" layoutX="291.0" layoutY="354.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex1_4" fill="#d7c9b7" layoutX="239.0" layoutY="445.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex1_5" fill="#d7c9b7" layoutX="292.0" layoutY="535.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
-                <!--
-                THE INSIDE, LINE BY LINE
-                -->
-                <Polygon fx:id="hex1_1" fill="#d7c9b7" layoutX="212.0" layoutY="107.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex1_2" fill="#d7c9b7" layoutX="160.0" layoutY="198.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex1_3" fill="#d7c9b7" layoutX="212.0" layoutY="291.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex1_4" fill="#d7c9b7" layoutX="160.0" layoutY="382.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex1_5" fill="#d7c9b7" layoutX="213.0" layoutY="472.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex2_1" fill="#d7c9b7" layoutX="397.0" layoutY="170.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex2_2" fill="#d7c9b7" layoutX="344.0" layoutY="261.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex2_3" fill="#d7c9b7" layoutX="397.0" layoutY="353.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex2_4" fill="#d7c9b7" layoutX="344.0" layoutY="445.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex2_5" fill="#d7c9b7" layoutX="397.0" layoutY="536.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
-                <Polygon fx:id="hex2_1" fill="#d7c9b7" layoutX="318.0" layoutY="107.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex2_2" fill="#d7c9b7" layoutX="265.0" layoutY="198.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex2_3" fill="#d7c9b7" layoutX="318.0" layoutY="290.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex2_4" fill="#d7c9b7" layoutX="265.0" layoutY="382.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex2_5" fill="#d7c9b7" layoutX="318.0" layoutY="473.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex3_1" fill="#d7c9b7" layoutX="503.0" layoutY="170.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex3_2" fill="#d7c9b7" layoutX="450.0" layoutY="262.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex3_3" fill="#d7c9b7" layoutX="503.0" layoutY="353.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex3_4" fill="#d7c9b7" layoutX="450.0" layoutY="444.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex3_5" fill="#d7c9b7" layoutX="503.0" layoutY="535.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
-                <Polygon fx:id="hex3_1" fill="#d7c9b7" layoutX="424.0" layoutY="107.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex3_2" fill="#d7c9b7" layoutX="371.0" layoutY="199.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex3_3" fill="#d7c9b7" layoutX="424.0" layoutY="290.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex3_4" fill="#d7c9b7" layoutX="371.0" layoutY="381.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex3_5" fill="#d7c9b7" layoutX="424.0" layoutY="472.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex4_1" fill="#d7c9b7" layoutX="608.0" layoutY="170.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex4_2" fill="#d7c9b7" layoutX="556.0" layoutY="262.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex4_3" fill="#d7c9b7" layoutX="609.0" layoutY="354.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex4_4" fill="#d7c9b7" layoutX="556.0" layoutY="444.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex4_5" fill="#d7c9b7" layoutX="609.0" layoutY="535.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
-                <Polygon fx:id="hex4_1" fill="#d7c9b7" layoutX="529.0" layoutY="107.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex4_2" fill="#d7c9b7" layoutX="477.0" layoutY="199.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex4_3" fill="#d7c9b7" layoutX="530.0" layoutY="291.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex4_4" fill="#d7c9b7" layoutX="477.0" layoutY="381.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex4_5" fill="#d7c9b7" layoutX="530.0" layoutY="472.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex5_1" fill="#d7c9b7" layoutX="714.0" layoutY="170.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex5_2" fill="#d7c9b7" layoutX="662.0" layoutY="261.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex5_3" fill="#d7c9b7" layoutX="715.0" layoutY="353.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+            <Polygon fx:id="hex5_4" fill="#d7c9b7" layoutX="662.0" layoutY="445.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
+             <Polygon fx:id="hex5_5" fill="#d7c9b7" layoutX="715.0" layoutY="535.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
 
-                <Polygon fx:id="hex5_1" fill="#d7c9b7" layoutX="635.0" layoutY="107.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex5_2" fill="#d7c9b7" layoutX="583.0" layoutY="198.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex5_3" fill="#d7c9b7" layoutX="636.0" layoutY="290.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex5_4" fill="#d7c9b7" layoutX="583.0" layoutY="382.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-                <Polygon fx:id="hex5_5" fill="#d7c9b7" layoutX="636.0" layoutY="472.0" onMouseClicked="#clickDetected" points="-53.0, 49.0, 0.0, 16.0, 0.0, -44.0, -53.0, -77.0, -106.0, -44.0, -106.0, 16.0" stroke="BLACK" strokeType="INSIDE" />
-            </children>
-        </AnchorPane>
-    </center>
-    <bottom>
-        <GridPane BorderPane.alignment="CENTER">
-            <columnConstraints>
+         </children></AnchorPane>
+   </center>
+   <bottom>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" />
+          <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </bottom>
+   <left>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <GridPane GridPane.rowIndex="2">
+              <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-            </columnConstraints>
-            <rowConstraints>
+              </columnConstraints>
+              <rowConstraints>
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-        </GridPane>
-    </bottom>
-    <left>
-        <GridPane BorderPane.alignment="CENTER">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-                <GridPane GridPane.rowIndex="2">
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane GridPane.rowIndex="1">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                      <ColumnConstraints hgrow="SOMETIMES" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                     </rowConstraints>
-                    <children>
-                        <GridPane GridPane.rowIndex="1">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                        </GridPane>
-                    </children>
-                </GridPane>
-                <GridPane GridPane.rowIndex="1">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <GridPane GridPane.rowIndex="1">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                        </GridPane>
-                    </children>
-                </GridPane>
-                <GridPane>
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <GridPane GridPane.rowIndex="1">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                        </GridPane>
-                    </children>
-                </GridPane>
-            </children>
-        </GridPane>
-    </left>
-    <right>
-        <GridPane BorderPane.alignment="CENTER">
-            <columnConstraints>
+                  </GridPane>
+               </children>
+            </GridPane>
+            <GridPane GridPane.rowIndex="1">
+              <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" />
-            </columnConstraints>
-            <rowConstraints>
+              </columnConstraints>
+              <rowConstraints>
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </children>
+            </GridPane>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-        </GridPane>
-    </right>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </left>
+   <right>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </right>
 </BorderPane>
