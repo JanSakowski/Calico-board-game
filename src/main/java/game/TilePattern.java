@@ -9,6 +9,7 @@ import java.util.Random;
  * Represents a tile pattern
  */
 public enum TilePattern {
+    //5, 3, 2, 4, 1, 6
     FERN, CROSSES, STRIPES, FLOWERS, PLANTS, DOTS;
 
     /**
