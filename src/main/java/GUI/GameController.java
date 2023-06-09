@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 
@@ -119,11 +120,13 @@ public class GameController implements Initializable {
 
     @FXML
     private void showTable() {
-        for (int i = 0; i < 3; i++) {
-            Polygon polygon = makeNewHexagon(1);
-            changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
-            polygon.setOnMouseClicked(this::projectTileOnClick);
-            table.add(polygon, 0, i);
+        if (!game.isFirstTurn()) {
+            for (int i = 0; i < 3; i++) {
+                Polygon polygon = makeNewHexagon(1);
+                changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
+                polygon.setOnMouseClicked(this::tableTileOnClick);
+                table.add(polygon, 0, i);
+            }
         }
     }
 
@@ -134,18 +137,37 @@ public class GameController implements Initializable {
                 for (int i = 0; i < 4; i++) {
                     Polygon polygon = makeNewHexagon(1);
                     changeFill(polygon, getImagePath(player.getProjectTiles()[i]));
-                    polygon.setOnMouseClicked(this::projectTileOnClick);
+                    polygon.setOnMouseClicked(this::handTileOnClick);
                     onHand.add(polygon, i, 0);
                 }
+            } else {
+                onHand.getChildren().clear();
             }
         } else {
-
-        }
-        for (int i = 0; i < 4; i++) {
-            Polygon polygon = makeNewHexagon(1);
-            changeFill(polygon, getImagePath(player.getProjectTiles()[i]));
-            polygon.setOnMouseClicked(this::projectTileOnClick);
-            onHand.add(polygon, i, 0);
+            onHand.getChildren().clear();
+            if (player == game.getPlayers()[game.getCurrentPlayer()]) {
+                Polygon polygon = makeNewHexagon(1);
+                changeFill(polygon, getImagePath(player.getTilesOnHand().get(0)));
+                polygon.setOnMouseClicked(this::handTileOnClick);
+                onHand.add(polygon, 1, 0);
+                if (player.getTilesOnHand().size() > 1) {
+                    polygon = makeNewHexagon(1);
+                    changeFill(polygon, getImagePath(player.getTilesOnHand().get(0)));
+                    polygon.setOnMouseClicked(this::handTileOnClick);
+                    onHand.add(polygon, 2, 0);
+                }
+            } else {
+                Polygon polygon = makeNewHexagon(1);
+                polygon.setFill(Paint.valueOf("#d7c9b7"));
+                //polygon.setOnMouseClicked(this::regularTileOnClick);
+                onHand.add(polygon, 1, 0);
+                if (player.getTilesOnHand().size() > 1) {
+                    polygon = makeNewHexagon(1);
+                    polygon.setFill(Paint.valueOf("#d7c9b7"));
+                    //polygon.setOnMouseClicked(this::regularTileOnClick);
+                    onHand.add(polygon, 2, 0);
+                }
+            }
         }
     }
 
@@ -157,17 +179,37 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    void handTileOnClick(MouseEvent event) {
+        if (event.getTarget() instanceof Polygon) {
+            chosenProjectTile = ((Polygon) event.getTarget());
+        }
+    }
+    @FXML
+    void tableTileOnClick(MouseEvent event) {
+        if (event.getTarget() instanceof Polygon) {
+
+        }
+    }
+
+    @FXML
     void showPlayersBoard(Player player) {
         //Field currentField;
         showHand(player);
-
+        showTable();
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
+                Polygon hexagon = getHexagon(i, j);
                 Field currentField = player.getBoard().getField(i, j);
                 if (currentField.hasRegularTile()) {
-                    Polygon hexagon = getHexagon(i, j);
                     String path = getImagePath(currentField.getRegularTile());
                     changeFill(hexagon, path);
+                } else if (currentField.hasProjectTile()) {
+                    String path = getImagePath(currentField.getProjectTile());
+                    changeFill(hexagon, path);
+                } else {
+                    if (hexagon == hex2_4 || hexagon == hex3_2 || hexagon == hex4_3) {
+                        hexagon.setFill(Paint.valueOf("#ffcc8e"));
+                    } else hexagon.setFill(Paint.valueOf("#d7c9b7"));
                 }
             }
         }
@@ -207,7 +249,7 @@ public class GameController implements Initializable {
             case CALLIE -> path.append("Callie.png");
             case ALMOND -> path.append("Almond.png");
             case LEO -> path.append("Leo.png");
-            case TECOLOTE -> path.append("Tecelote.png");
+            case TECOLOTE -> path.append("Tecolote.png");
             case CIRA -> path.append("Cira.png");
             case RUMI -> path.append("Rumi.png");
             case MILLIE -> path.append("Millie.png");
@@ -307,17 +349,17 @@ public class GameController implements Initializable {
         if (game.isFirstTurn()) {
             if (chosenProjectTile != null) {
                 if (event.getTarget() instanceof Polygon) {
-                    if (event.getTarget().equals(hex2_4) && pickedProjectTiles[0] == 0) {
+                    if (event.getTarget().equals(hex2_4) && pickedProjectTiles[0] == -1) {
                         putProjectTile(chosenProjectTile, hex2_4);
                         pickedProjectTiles[0] = onHand.getColumnIndex(chosenProjectTile);
                         chosenProjectTile = null;
                     }
-                    if (event.getTarget().equals(hex4_3) && pickedProjectTiles[2] != 0) {
+                    if (event.getTarget().equals(hex4_3) && pickedProjectTiles[2] == -1) {
                         putProjectTile(chosenProjectTile, hex4_3);
                         pickedProjectTiles[2] = onHand.getColumnIndex(chosenProjectTile);
                         chosenProjectTile = null;
                     }
-                    if (event.getTarget().equals(hex3_2) && pickedProjectTiles[1] != 0) {
+                    if (event.getTarget().equals(hex3_2) && pickedProjectTiles[1] == -1) {
                         putProjectTile(chosenProjectTile, hex3_2);
                         pickedProjectTiles[1] = onHand.getColumnIndex(chosenProjectTile);
                         chosenProjectTile = null;
@@ -349,6 +391,7 @@ public class GameController implements Initializable {
             message.append(pickedProjectTiles[2]);
             game.updateState(message.toString());
             pickedProjectTiles = new int[3];
+            for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
             showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         } else {
             StringBuilder message = new StringBuilder();
@@ -368,5 +411,6 @@ public class GameController implements Initializable {
         showButtons();
         showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         pickedProjectTiles = new int[3];
+        for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
     }
 }
