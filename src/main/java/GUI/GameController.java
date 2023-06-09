@@ -2,6 +2,7 @@ package GUI;
 
 
 import game.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -26,6 +27,12 @@ public class GameController implements Initializable {
     private ImageView cat0, cat1, cat2;
     @FXML
     private GridPane onHand, cat0Patterns, cat1Patterns, cat2Patterns, table, colorButtons;
+    @FXML
+    private Polygon hex2_4, hex3_2, hex4_3;
+    private Polygon chosenProjectTile = null;
+    @FXML
+    private Button endTurn;
+    private int[] pickedProjectTiles;
 
     private Polygon getHexagon(int x, int y) {
         for (Node node : hexboard.getChildren()) {
@@ -111,14 +118,55 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private void showTable() {
+        for (int i = 0; i < 3; i++) {
+            Polygon polygon = makeNewHexagon(1);
+            changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
+            polygon.setOnMouseClicked(this::projectTileOnClick);
+            table.add(polygon, 0, i);
+        }
+    }
+
+    @FXML
+    private void showHand(Player player) {
+        if (game.isFirstTurn()) {
+            if (player == game.getPlayers()[game.getCurrentPlayer()]) {
+                for (int i = 0; i < 4; i++) {
+                    Polygon polygon = makeNewHexagon(1);
+                    changeFill(polygon, getImagePath(player.getProjectTiles()[i]));
+                    polygon.setOnMouseClicked(this::projectTileOnClick);
+                    onHand.add(polygon, i, 0);
+                }
+            }
+        } else {
+
+        }
+        for (int i = 0; i < 4; i++) {
+            Polygon polygon = makeNewHexagon(1);
+            changeFill(polygon, getImagePath(player.getProjectTiles()[i]));
+            polygon.setOnMouseClicked(this::projectTileOnClick);
+            onHand.add(polygon, i, 0);
+        }
+    }
+
+    @FXML
+    void projectTileOnClick(MouseEvent event) {
+        if (event.getTarget() instanceof Polygon) {
+            chosenProjectTile = ((Polygon) event.getTarget());
+        }
+    }
+
+    @FXML
     void showPlayersBoard(Player player) {
         //Field currentField;
+        showHand(player);
+
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 Field currentField = player.getBoard().getField(i, j);
                 if (currentField.hasRegularTile()) {
                     Polygon hexagon = getHexagon(i, j);
-                    String path = getRegularImagePath(currentField.getRegularTile());
+                    String path = getImagePath(currentField.getRegularTile());
                     changeFill(hexagon, path);
                 }
             }
@@ -152,9 +200,42 @@ public class GameController implements Initializable {
         return path.toString();
     }
 
+    private String getCatPath(Cat cat) {
+        StringBuilder path = new StringBuilder();
+        path.append("/GUI/cats/");
+        switch (cat) {
+            case CALLIE -> path.append("Callie.png");
+            case ALMOND -> path.append("Almond.png");
+            case LEO -> path.append("Leo.png");
+            case TECOLOTE -> path.append("Tecelote.png");
+            case CIRA -> path.append("Cira.png");
+            case RUMI -> path.append("Rumi.png");
+            case MILLIE -> path.append("Millie.png");
+            case TIBBIT -> path.append("Tibbit.png");
+            case COCONUT -> path.append("Coconut.png");
+            case GWENIVERSE -> path.append("Gwen.png");
+        }
+        return path.toString();
+    }
+
+    private void putProjectTile(Polygon projectTile, Polygon projectTileDestination) {
+        projectTileDestination.setFill(projectTile.getFill());
+        onHand.getChildren().remove(projectTile);
+    }
+
     @FXML
     private void showCats() {
+        //cats
+        int it = 0;
+        Cat[] cats = new Cat[3];
+        for (Cat cat : game.getCatBoards().keySet()) {
+            cats[it] = cat;
+            it++;
+        }
         //cat0
+        URL url = getClass().getResource(getCatPath(cats[0]));
+        Image img = new Image(url.toString());
+        cat0.setImage(img);
         for (int i = 0; i < 2; i++) {
             String path = getCatsTilesPath(0, i);
             Polygon patternTile = makeNewHexagon(1);
@@ -162,6 +243,9 @@ public class GameController implements Initializable {
             cat0Patterns.add(patternTile, i, 0);
         }
         //cat1
+        url = getClass().getResource(getCatPath(cats[1]));
+        img = new Image(url.toString());
+        cat1.setImage(img);
         for (int i = 0; i < 2; i++) {
             String path = getCatsTilesPath(1, i);
             Polygon patternTile = makeNewHexagon(1);
@@ -169,6 +253,9 @@ public class GameController implements Initializable {
             cat1Patterns.add(patternTile, i, 0);
         }
         //cat2
+        url = getClass().getResource(getCatPath(cats[2]));
+        img = new Image(url.toString());
+        cat2.setImage(img);
         for (int i = 0; i < 2; i++) {
             String path = getCatsTilesPath(2, i);
             Polygon patternTile = makeNewHexagon(1);
@@ -210,21 +297,76 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    private boolean isTableFull() {
+        return table.getChildren().size() >= 3;
+    }
+
+
+    @FXML
     void clickDetected(MouseEvent event) {
-        URL url = getClass().getResource("/GUI/goaltiles/AAABBB.png");
-        Image img = new Image(url.toString());
-        String id = event.getTarget().toString().substring(14, 17);
-        if (event.getTarget() instanceof Polygon) {
-            ((Polygon) event.getTarget()).setFill(new ImagePattern(img));
+        if (game.isFirstTurn()) {
+            if (chosenProjectTile != null) {
+                if (event.getTarget() instanceof Polygon) {
+                    if (event.getTarget().equals(hex2_4) && pickedProjectTiles[0] == 0) {
+                        putProjectTile(chosenProjectTile, hex2_4);
+                        pickedProjectTiles[0] = onHand.getColumnIndex(chosenProjectTile);
+                        chosenProjectTile = null;
+                    }
+                    if (event.getTarget().equals(hex4_3) && pickedProjectTiles[2] != 0) {
+                        putProjectTile(chosenProjectTile, hex4_3);
+                        pickedProjectTiles[2] = onHand.getColumnIndex(chosenProjectTile);
+                        chosenProjectTile = null;
+                    }
+                    if (event.getTarget().equals(hex3_2) && pickedProjectTiles[1] != 0) {
+                        putProjectTile(chosenProjectTile, hex3_2);
+                        pickedProjectTiles[1] = onHand.getColumnIndex(chosenProjectTile);
+                        chosenProjectTile = null;
+                    }
+                }
+            }
         }
-        System.out.println("Coordinates: " + id);
+    }
+
+    //        URL url = getClass().getResource("/GUI/goaltiles/AAABBB.png");
+//        Image img = new Image(url.toString());
+//        String id = event.getTarget().toString().substring(14, 17);
+//        if (event.getTarget() instanceof Polygon) {
+//            ((Polygon) event.getTarget()).setFill(new ImagePattern(img));
+//        }
+//        System.out.println("Coordinates: " + id);}
+    @FXML
+    public void endingTurn(ActionEvent e) {
+        if (game.isFirstTurn()) {
+            if (pickedProjectTiles[0] == 0 && pickedProjectTiles[1] == 0 && pickedProjectTiles[2] == 0)
+                return;
+            StringBuilder message = new StringBuilder();
+            message.append(game.getCurrentPlayer());
+            message.append(";project;");
+            message.append(pickedProjectTiles[0]);
+            message.append(";");
+            message.append(pickedProjectTiles[1]);
+            message.append(";");
+            message.append(pickedProjectTiles[2]);
+            game.updateState(message.toString());
+            pickedProjectTiles = new int[3];
+            showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
+        } else {
+            StringBuilder message = new StringBuilder();
+            message.append(game.getCurrentPlayer());
+            message.append(";end");
+            if (!isTableFull()) {
+                game.updateState(message.toString());
+                showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
+            }
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         game = new Game(2);
         showCats();
-        showPlayersBoard((game.getPlayers())[0]);
         showButtons();
+        showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
+        pickedProjectTiles = new int[3];
     }
 }
