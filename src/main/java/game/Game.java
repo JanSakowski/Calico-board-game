@@ -70,6 +70,7 @@ public class Game implements Serializable {
             players[i] = new Player(i, Board.getRandom(random), ProjectTile.getPlayersRandom(random));
         firstTurn = true;
         tilesOnTable = new ArrayList<>();
+        currentPlayer = 0;
     }
 
     /**
@@ -102,7 +103,11 @@ public class Game implements Serializable {
             int left = Integer.parseInt(split[2]);
             int center = Integer.parseInt(split[3]);
             int right = Integer.parseInt(split[4]);
+
             if (players[currentPlayer].setProjectTiles(left, center, right)) {
+                //==========
+                System.out.println("projects set to: " + left + center + right);
+                //====================
                 players[currentPlayer].addTile(regularTilesLeft.pop());
                 players[currentPlayer].addTile(regularTilesLeft.pop());
                 currentPlayer++;
@@ -124,8 +129,8 @@ public class Game implements Serializable {
                     if (index < 0 || index > 3)
                         return;
                     if (players[currentPlayer].addTile(tilesOnTable.get(index))) {
-                        regularTilesLeft.remove(index);
-                        regularTilesLeft.add(regularTilesLeft.pop());
+                        tilesOnTable.remove(index);
+                        tilesOnTable.add(regularTilesLeft.pop());
                     }
                 }
                 case "put_tile" -> {

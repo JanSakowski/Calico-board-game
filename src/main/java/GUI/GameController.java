@@ -19,6 +19,7 @@ import javafx.scene.shape.StrokeType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 public class GameController implements Initializable {
     private Game game;
@@ -31,6 +32,8 @@ public class GameController implements Initializable {
     @FXML
     private Polygon hex2_4, hex3_2, hex4_3;
     private Polygon chosenProjectTile = null;
+    private Polygon chosenRegularTile = null;
+    private Polygon chosenTableTile = null;
     @FXML
     private Button endTurn;
     private int[] pickedProjectTiles;
@@ -152,7 +155,7 @@ public class GameController implements Initializable {
                 onHand.add(polygon, 1, 0);
                 if (player.getTilesOnHand().size() > 1) {
                     polygon = makeNewHexagon(1);
-                    changeFill(polygon, getImagePath(player.getTilesOnHand().get(0)));
+                    changeFill(polygon, getImagePath(player.getTilesOnHand().get(1)));
                     polygon.setOnMouseClicked(this::handTileOnClick);
                     onHand.add(polygon, 2, 0);
                 }
@@ -180,14 +183,20 @@ public class GameController implements Initializable {
 
     @FXML
     void handTileOnClick(MouseEvent event) {
-        if (event.getTarget() instanceof Polygon) {
-            chosenProjectTile = ((Polygon) event.getTarget());
+        if ( game.isFirstTurn() ) {
+            if (event.getTarget() instanceof Polygon) {
+                chosenProjectTile = ((Polygon) event.getTarget());
+            }
+        } else {
+            if ( event.getTarget() instanceof Polygon ) {
+                chosenRegularTile = ( (Polygon) event.getTarget() );
+            }
         }
     }
     @FXML
     void tableTileOnClick(MouseEvent event) {
         if (event.getTarget() instanceof Polygon) {
-
+            chosenTableTile = ( (Polygon) event.getTarget() );
         }
     }
 
@@ -263,6 +272,17 @@ public class GameController implements Initializable {
     private void putProjectTile(Polygon projectTile, Polygon projectTileDestination) {
         projectTileDestination.setFill(projectTile.getFill());
         onHand.getChildren().remove(projectTile);
+    }
+
+    private void putRegularTile( Polygon regularTile, Polygon regularTileDestination ) {
+        if ( regularTileDestination.getFill().getClass() != ImagePattern.class ) {
+            regularTileDestination.setFill(regularTile.getFill());
+            game.getPlayers()[game.getCurrentPlayer()].changeActivity();
+            onHand.getChildren().remove(regularTile);
+        }
+         else {
+            System.out.println("No");
+        }
     }
 
     @FXML
@@ -344,6 +364,7 @@ public class GameController implements Initializable {
     }
 
 
+    StringBuilder sb = new StringBuilder();
     @FXML
     void clickDetected(MouseEvent event) {
         if (game.isFirstTurn()) {
@@ -365,6 +386,11 @@ public class GameController implements Initializable {
                         chosenProjectTile = null;
                     }
                 }
+            }
+        } else {
+            Polygon chosenField = (Polygon) event.getTarget();
+            if ( chosenRegularTile != null && game.getPlayers()[game.getCurrentPlayer()].getActivity() == true ) {
+                putRegularTile(chosenRegularTile, chosenField );
             }
         }
     }
@@ -392,6 +418,7 @@ public class GameController implements Initializable {
             game.updateState(message.toString());
             pickedProjectTiles = new int[3];
             for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
+            onHand.getChildren().clear();
             showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         } else {
             StringBuilder message = new StringBuilder();
