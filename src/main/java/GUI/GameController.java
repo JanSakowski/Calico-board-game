@@ -19,7 +19,6 @@ import javafx.scene.shape.StrokeType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 public class GameController implements Initializable {
     private Game game;
@@ -284,7 +283,14 @@ public class GameController implements Initializable {
             System.out.println("No");
         }
     }
+    private void pickTableTile(Polygon tableTile) {
+        Polygon onHandTile = (Polygon) onHand.getChildren().toArray()[0];
+        onHand.getChildren().remove(0);
+        onHand.add(tableTile,1,0);
+        onHand.add(onHandTile, 2,0);
+        table.getChildren().remove(tableTile);
 
+    }
     @FXML
     private void showCats() {
         //cats
@@ -364,7 +370,9 @@ public class GameController implements Initializable {
     }
 
 
-    StringBuilder sb = new StringBuilder();
+    StringBuilder putTileMessage = new StringBuilder();
+    StringBuilder giveMessage = new StringBuilder();
+    boolean hasMoved = false;
     @FXML
     void clickDetected(MouseEvent event) {
         if (game.isFirstTurn()) {
@@ -388,12 +396,43 @@ public class GameController implements Initializable {
                 }
             }
         } else {
+            putTileMessage.append(game.getCurrentPlayer());
+            putTileMessage.append(";");
             Polygon chosenField = (Polygon) event.getTarget();
-            if ( chosenRegularTile != null && game.getPlayers()[game.getCurrentPlayer()].getActivity() == true ) {
+//            double x = event.getX();
+  //          double y = event.getY();
+            if ( chosenRegularTile != null
+                    && onHand.getChildren().size() == 2
+            //        && game.getPlayers()[game.getCurrentPlayer()].getActivity()
+                    && !hasMoved
+            ) {
+                int index = onHand.getChildren().indexOf(chosenRegularTile);
                 putRegularTile(chosenRegularTile, chosenField );
+                putTileMessage.append("put_tile;");
+                putTileMessage.append(index);
+                putTileMessage.append(";");
+                /*
+                putTileMessage.append(x);
+                putTileMessage.append(";");
+                putTileMessage.append(y);
+                 */
+           //     System.out.println(x +" " +y);
+           //   System.out.println(putTileMessage);
+           //   game.changeActivityOfCurrentPlayer();
+                hasMoved = true;
+            }
+            if( chosenTableTile != null &&  onHand.getChildren().size() == 1
+            && hasMoved
+            ){
+                int index2 = table.getChildren().indexOf(chosenTableTile);
+                pickTableTile(chosenTableTile);
+                giveMessage.append("give;");
+                giveMessage.append(index2);
             }
         }
     }
+
+
 
     //        URL url = getClass().getResource("/GUI/goaltiles/AAABBB.png");
 //        Image img = new Image(url.toString());
@@ -425,10 +464,19 @@ public class GameController implements Initializable {
             message.append(game.getCurrentPlayer());
             message.append(";end");
             if (!isTableFull()) {
+        //        game.updateState(putTileMessage.toString());
+        //        game.updateState(giveMessage.toString());
                 game.updateState(message.toString());
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
+                chosenTableTile = null;
+                putTileMessage.delete(0,putTileMessage.length()-1);
+                giveMessage.delete(0,giveMessage.length()-1);
+                chosenRegularTile = null;
+                hasMoved = false;
             }
+
         }
+
     }
 
     @Override

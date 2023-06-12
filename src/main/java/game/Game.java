@@ -208,7 +208,12 @@ public class Game implements Serializable {
             return null;
         }
     }
-
+    /**
+    TEMPORARY
+    **/
+    public void changeActivityOfCurrentPlayer(){
+        players[currentPlayer].changeActivity();
+    }
     public static void main(String[] args) {
         Game game = new Game(2);
         game.updateState("0;project;0;1;2");
