@@ -18,6 +18,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
@@ -36,6 +37,8 @@ public class GameController implements Initializable {
     @FXML
     private Button endTurn;
     private int[] pickedProjectTiles;
+
+    //To keep track of the indexes taken from the table
 
     private Polygon getHexagon(int x, int y) {
         for (Node node : hexboard.getChildren()) {
@@ -123,12 +126,13 @@ public class GameController implements Initializable {
     @FXML
     private void showTable() {
         if (!game.isFirstTurn()) {
-            for (int i = 0; i < 3; i++) {
-                Polygon polygon = makeNewHexagon(1);
-                changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
-                polygon.setOnMouseClicked(this::tableTileOnClick);
-                table.add(polygon, 0, i);
-            }
+                for (int i = 0; i < 3; i++) {
+                    System.out.println("initial setup");
+                    Polygon polygon = makeNewHexagon(1);
+                    changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
+                    polygon.setOnMouseClicked(this::tableTileOnClick);
+                    table.add(polygon, 0, i);
+                }
         }
     }
 
@@ -411,25 +415,36 @@ public class GameController implements Initializable {
                 putTileMessage.append("put_tile;");
                 putTileMessage.append(index);
                 putTileMessage.append(";");
-                /*
-                putTileMessage.append(x);
+                String[] coordinates = getCoordinates(chosenField);
+                putTileMessage.append(coordinates[0]);
                 putTileMessage.append(";");
-                putTileMessage.append(y);
-                 */
-           //     System.out.println(x +" " +y);
-           //   System.out.println(putTileMessage);
-           //   game.changeActivityOfCurrentPlayer();
+                putTileMessage.append(coordinates[1]);
+                game.updateState(putTileMessage.toString());
                 hasMoved = true;
             }
             if( chosenTableTile != null &&  onHand.getChildren().size() == 1
             && hasMoved
             ){
+                giveMessage.append(game.getCurrentPlayer() + ";");
                 int index2 = table.getChildren().indexOf(chosenTableTile);
+                System.out.println(table.getChildren().size());
+                System.out.println("Chosen index: " + index2);
                 pickTableTile(chosenTableTile);
                 giveMessage.append("give;");
                 giveMessage.append(index2);
+                System.out.println(giveMessage);
+                game.updateState(giveMessage.toString());
             }
         }
+    }
+    public String[] getCoordinates(Polygon p) {
+        String[] result = new String[2];
+        String polygon = p.toString();
+        //Temporary
+        result[0] = p.toString().substring(14,15);
+        result[1] = p.toString().substring(16,17);
+        System.out.println("Chosen field: " + result[0] + " " + result[1]);
+        return result;
     }
 
 
@@ -463,14 +478,16 @@ public class GameController implements Initializable {
             StringBuilder message = new StringBuilder();
             message.append(game.getCurrentPlayer());
             message.append(";end");
+            System.out.println("endmessage");
             if (!isTableFull()) {
+                System.out.println("table not full");
         //        game.updateState(putTileMessage.toString());
         //        game.updateState(giveMessage.toString());
                 game.updateState(message.toString());
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
                 chosenTableTile = null;
-                putTileMessage.delete(0,putTileMessage.length()-1);
-                giveMessage.delete(0,giveMessage.length()-1);
+                putTileMessage.setLength(0);
+                giveMessage.setLength(0);
                 chosenRegularTile = null;
                 hasMoved = false;
             }

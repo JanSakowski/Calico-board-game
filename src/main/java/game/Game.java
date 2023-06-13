@@ -1,10 +1,7 @@
 package game;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.Random;
-import java.util.Stack;
+import java.util.*;
 
 public class Game implements Serializable {
     private final Player[] players;
@@ -70,7 +67,9 @@ public class Game implements Serializable {
             players[i] = new Player(i, Board.getRandom(random), ProjectTile.getPlayersRandom(random));
         firstTurn = true;
         tilesOnTable = new ArrayList<>();
+
         currentPlayer = 0;
+
     }
 
     /**
@@ -126,12 +125,23 @@ public class Game implements Serializable {
                     if (split.length != 3)
                         throw new IllegalArgumentException("Expected integer for index");
                     int index = Integer.parseInt(split[2]);
-                    if (index < 0 || index > 3)
+                    if (index < 0 || index > 3) {
+                        System.out.println("index problem");
                         return;
+                    }
                     if (players[currentPlayer].addTile(tilesOnTable.get(index))) {
+                        System.out.println("index is: " + index);
                         tilesOnTable.remove(index);
                         tilesOnTable.add(regularTilesLeft.pop());
+                        System.out.println("On table are:");
+                        for (Tile t:
+                             getTilesOnTable()) {
+                            System.out.print(t + " -> ");
+                        }
                     }
+
+                    //temporary
+                    System.out.println("chosen table tile successfully. Array state: " + tilesOnTable.size());
                 }
                 case "put_tile" -> {
                     if (split.length != 5)
@@ -140,6 +150,8 @@ public class Game implements Serializable {
                     int x = Integer.parseInt(split[3]);
                     int y = Integer.parseInt(split[4]);
                     players[currentPlayer].putTile(index, x, y);
+                    //temporary
+                    System.out.println("tile put successfully");
                 }
                 case "put_color" -> {
                     if (split.length != 4)
@@ -169,6 +181,7 @@ public class Game implements Serializable {
                     currentPlayer++;
                     if (currentPlayer == players.length)
                         currentPlayer = 0;
+                    System.out.println("Ending tour");
                 }
                 default -> throw new IllegalArgumentException("Incorrect message type");
             }
