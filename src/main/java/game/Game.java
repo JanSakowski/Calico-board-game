@@ -69,7 +69,7 @@ public class Game implements Serializable {
         tilesOnTable = new ArrayList<>();
 
         currentPlayer = 0;
-
+        System.out.println(numberOfPlayers);
     }
 
     /**

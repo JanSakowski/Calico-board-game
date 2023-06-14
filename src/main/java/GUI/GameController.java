@@ -498,7 +498,8 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        game = new Game(2);
+        GameDataMonostate data = new GameDataMonostate();
+        game = new Game(data.getNumberOfPlayers());
         showCats();
         showButtons();
         showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
