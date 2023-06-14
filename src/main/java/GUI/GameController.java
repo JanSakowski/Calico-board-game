@@ -2,6 +2,7 @@ package GUI;
 
 
 import game.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,6 +35,9 @@ public class GameController implements Initializable {
     private Polygon chosenProjectTile = null;
     private Polygon chosenRegularTile = null;
     private Polygon chosenTableTile = null;
+    private int spectatedPlayer = 0;
+    @FXML
+    BorderPane border;
     @FXML
     private Button endTurn;
     private int[] pickedProjectTiles;
@@ -186,7 +190,7 @@ public class GameController implements Initializable {
 
     @FXML
     void handTileOnClick(MouseEvent event) {
-        if ( game.isFirstTurn() ) {
+        if (game.isFirstTurn()) {
             if (event.getTarget() instanceof Polygon) {
                 chosenProjectTile = ((Polygon) event.getTarget());
             }
@@ -197,6 +201,7 @@ public class GameController implements Initializable {
             }
         }
     }
+
     @FXML
     void tableTileOnClick(MouseEvent event) {
         if (event.getTarget() instanceof Polygon) {
@@ -222,6 +227,7 @@ public class GameController implements Initializable {
 
     @FXML
     void showPlayersBoard(Player player) {
+        spectatedPlayer = Arrays.asList(game.getPlayers()).indexOf(player);
         //Field currentField;
         showHand(player);
         showTable();
@@ -303,6 +309,7 @@ public class GameController implements Initializable {
             System.out.println("No");
         }
     }
+
     private void pickTableTile(Polygon tableTile) {
         Polygon onHandTile = (Polygon) onHand.getChildren().toArray()[0];
         onHand.getChildren().remove(0);
@@ -311,6 +318,7 @@ public class GameController implements Initializable {
         table.getChildren().remove(tableTile);
 
     }
+
     @FXML
     private void showCats() {
         //cats
@@ -393,6 +401,7 @@ public class GameController implements Initializable {
     StringBuilder putTileMessage = new StringBuilder();
     StringBuilder giveMessage = new StringBuilder();
     boolean hasMoved = false;
+
     @FXML
     void clickDetected(MouseEvent event) {
         if (game.isFirstTurn()) {
@@ -508,6 +517,9 @@ public class GameController implements Initializable {
             System.out.println("endmessage");
             System.out.println(table.getChildren());
             if (!isTableFull()) {
+                System.out.println("table not full");
+                //        game.updateState(putTileMessage.toString());
+                //        game.updateState(giveMessage.toString());
                 game.updateState(message.toString());
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
                 chosenTableTile = null;
@@ -521,17 +533,35 @@ public class GameController implements Initializable {
 
     }
 
+    private void changePlayerLeft() {
+        spectatedPlayer = Integer.remainderUnsigned(spectatedPlayer - 1, game.getPlayers().length);
+        showPlayersBoard(game.getPlayers()[spectatedPlayer]);
+    }
+
+    private void changePlayerRight() {
+        spectatedPlayer = Integer.remainderUnsigned(spectatedPlayer + 1, game.getPlayers().length);
+        showPlayersBoard(game.getPlayers()[spectatedPlayer]);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameDataMonostate data = new GameDataMonostate();
-        //game = new Game(data.getNumberOfPlayers());
         game = new Game(2);
+        //game = new Game(data.getNumberOfPlayers());
         showCats();
         showButtons();
         showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         pickedProjectTiles = new int[3];
+        spectatedPlayer = game.getCurrentPlayer();
         for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
         game.updateState("0;project;0;1;2");
         game.updateState("1;project;0;1;3");
+        Platform.runLater(() -> border.getScene().setOnKeyPressed(event -> {
+            switch (event.getCode()){
+                case D -> changePlayerRight();
+                case A -> changePlayerLeft();
+            }
+        }));
+
     }
 }
