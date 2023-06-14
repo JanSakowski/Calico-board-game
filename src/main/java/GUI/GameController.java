@@ -34,12 +34,11 @@ public class GameController implements Initializable {
     private Polygon hex2_4, hex3_2, hex4_3;
     private Polygon chosenProjectTile = null;
     private Polygon chosenRegularTile = null;
-    private Polygon chosenTableTile = null;
     private int spectatedPlayer = 0;
     @FXML
     BorderPane border;
     @FXML
-    private Button endTurn;
+    private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
     private int[] pickedProjectTiles;
 
     //To keep track of the indexes taken from the table
@@ -195,31 +194,43 @@ public class GameController implements Initializable {
                 chosenProjectTile = ((Polygon) event.getTarget());
             }
         } else {
-            if ( event.getTarget() instanceof Polygon ) {
-                chosenRegularTile = ( (Polygon) event.getTarget() );
-                if (chosenTableTile != null ) chosenTableTile = null;
+            if (event.getTarget() instanceof Polygon) {
+                chosenRegularTile = ((Polygon) event.getTarget());
             }
         }
     }
-
+    @FXML
+    void getTileFromTable(Polygon polygon){
+        table.getChildren().remove(polygon);
+        if (onHand.getColumnIndex((Polygon)(onHand.getChildren().get(0)))==2) {
+            onHand.add(polygon,1,0);
+        }
+        else onHand.add(polygon,2,0);
+    }
     @FXML
     void tableTileOnClick(MouseEvent event) {
+        Player player = game.getPlayers()[game.getCurrentPlayer()];
         if (event.getTarget() instanceof Polygon) {
-            chosenTableTile = ( (Polygon) event.getTarget() );
-            // Deselecting other tiles
-            if ( chosenRegularTile != null ) chosenRegularTile = null;
+            if (spectatedPlayer == game.getCurrentPlayer()
+                    && player.getTilesOnHand().size() == 1
+                    && isTableFull() && hasMoved) {
+                StringBuilder message = new StringBuilder();
+                message.append(game.getCurrentPlayer());
+                message.append(";give;");
+                message.append(table.getRowIndex((Node)event.getTarget()));
+                game.updateState(message.toString());
+                tookFromTable = true;
+                getTileFromTable((Polygon) event.getTarget());
+            }
+
         }
     }
 
-    /**
-     * temp
-     */
-    @FXML
-    Button chosenButton;
+
     @FXML
     void buttonOnClick(MouseEvent event) {
-        if (event.getTarget() instanceof  Button) {
-            chosenButton = ( (Button) event.getTarget() );
+        if (event.getTarget() instanceof Button) {
+            chosenButton = ((Button) event.getTarget());
             // Deselecting other tiles
             if (chosenRegularTile != null) chosenRegularTile = null;
         }
@@ -227,6 +238,7 @@ public class GameController implements Initializable {
 
     @FXML
     void showPlayersBoard(Player player) {
+        showButtons(player);
         spectatedPlayer = Arrays.asList(game.getPlayers()).indexOf(player);
         //Field currentField;
         showHand(player);
@@ -300,24 +312,15 @@ public class GameController implements Initializable {
         onHand.getChildren().remove(projectTile);
     }
 
-    private void putRegularTile( Polygon regularTile, Polygon regularTileDestination ) {
-        if ( regularTileDestination.getFill().getClass() != ImagePattern.class ) {
+    private void putRegularTile(Polygon regularTile, Polygon regularTileDestination) {
+        if (regularTileDestination.getFill().getClass() != ImagePattern.class) {
             regularTileDestination.setFill(regularTile.getFill());
             onHand.getChildren().remove(regularTile);
-        }
-         else {
+        } else {
             System.out.println("No");
         }
     }
 
-    private void pickTableTile(Polygon tableTile) {
-        Polygon onHandTile = (Polygon) onHand.getChildren().toArray()[0];
-        onHand.getChildren().remove(0);
-        onHand.add(tableTile,1,0);
-        onHand.add(onHandTile, 2,0);
-        table.getChildren().remove(tableTile);
-
-    }
 
     @FXML
     private void showCats() {
@@ -375,21 +378,28 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    private void showButtons() {
-        Button button = (Button) colorButtons.getChildren().get(0);
-        setButtonsBackground(button, "/GUI/yellow/yellow.png");
-        button = (Button) colorButtons.getChildren().get(1);
-        setButtonsBackground(button, "/GUI/pink/pink.png");
-        button = (Button) colorButtons.getChildren().get(2);
-        setButtonsBackground(button, "/GUI/purple/purple.png");
-        button = (Button) colorButtons.getChildren().get(3);
-        setButtonsBackground(button, "/GUI/green/green.png");
-        button = (Button) colorButtons.getChildren().get(4);
-        setButtonsBackground(button, "/GUI/lightblue/lightBlue.png");
-        button = (Button) colorButtons.getChildren().get(5);
-        setButtonsBackground(button, "/GUI/darkblue/darkBlue.png");
-        button = (Button) colorButtons.getChildren().get(6);
-        setButtonsBackground(button, "/GUI/rainbow.png");
+    private void initializeButtons() {
+        setButtonsBackground(yellow, "/GUI/yellow/yellow.png");
+        setButtonsBackground(pink, "/GUI/pink/pink.png");
+        setButtonsBackground(purple, "/GUI/purple/purple.png");
+        setButtonsBackground(green, "/GUI/green/green.png");
+        setButtonsBackground(lblue, "/GUI/lightblue/lightBlue.png");
+        setButtonsBackground(dblue, "/GUI/darkblue/darkBlue.png");
+        setButtonsBackground(rainbow, "/GUI/rainbow.png");
+    }
+
+    @FXML
+    private void showButtons(Player player) {
+        colorButtons.getChildren().clear();
+        if (player == game.getPlayers()[game.getCurrentPlayer()]) {
+            colorButtons.add(yellow, 0, 0);
+            colorButtons.add(pink, 0, 1);
+            colorButtons.add(purple, 0, 2);
+            colorButtons.add(green, 1, 0);
+            colorButtons.add(dblue, 1, 1);
+            colorButtons.add(lblue, 1, 2);
+            colorButtons.add(rainbow, 0, 3);
+        }
     }
 
     @FXML
@@ -400,7 +410,7 @@ public class GameController implements Initializable {
 
     StringBuilder putTileMessage = new StringBuilder();
     StringBuilder giveMessage = new StringBuilder();
-    boolean hasMoved = false;
+
 
     @FXML
     void clickDetected(MouseEvent event) {
@@ -426,15 +436,13 @@ public class GameController implements Initializable {
             }
         } else {
             Polygon chosenField = (Polygon) event.getTarget();
-            if ( chosenRegularTile != null
-                    && onHand.getChildren().size() == 2
-                    && !hasMoved
-            ) {
+            if (chosenRegularTile != null
+                    && onHand.getChildren().size() == 2 && !hasMoved) {
                 int index = onHand.getChildren().indexOf(chosenRegularTile);
                 int[] coordinates = getCoordinates(chosenField);
-                if ( game.getPlayers()[game.getCurrentPlayer()].putTile(index, coordinates[0], coordinates[1]) ) {
+                if (game.getPlayers()[game.getCurrentPlayer()].putTile(index, coordinates[0], coordinates[1])) {
                     System.out.println("Placing the tile");
-                    putRegularTile(chosenRegularTile, chosenField );
+                    putRegularTile(chosenRegularTile, chosenField);
                 }
                 hasMoved = true;
 
@@ -458,14 +466,15 @@ public class GameController implements Initializable {
                 chosenTableTile = null;
             }
             // Setting up the button
-            if ( chosenButton != null ) {
+            if (chosenButton != null) {
                 System.out.println("Choosing button");
                 int[] coordinates = getCoordinates(chosenField);
 
                 // Putting the button on the tile
-                //TODO MAKE IT PERMANENT
-                if ( game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1]) ) {
-                    chosenField.setFill(chosenButton.getTextFill());
+                if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
+                    System.out.println("Button chosen. Placing");
+                    addColorButton(chosenField, game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor());
+                    //chosenField.setFill(chosenButton.getTextFill());
                     // To prevent left-over value from disturbing the program
                     chosenButton = null;
                 }
@@ -473,25 +482,51 @@ public class GameController implements Initializable {
             }
         }
     }
+
+    /**
+     * Method for adding color buttons. Used when showing player's board and placing the buttons
+     *
+     * @param polygon
+     */
+    public void addColorButton(Polygon polygon, game.Color color) {
+        StringBuilder imagePath = new StringBuilder();
+        imagePath.append("/GUI/");
+        System.out.println("Before Switch");
+        switch(color) {
+            case GREEN -> imagePath.append("green/green");
+            case YELLOW -> imagePath.append("yellow/yellow");
+            case PURPLE -> imagePath.append("purple/purple");
+            case MAGENTA -> imagePath.append("pink/pink");
+            case LIGHT_BLUE -> imagePath.append("lightblue/lightblue");
+            case DARK_BLUE -> imagePath.append("darkblue/darkblue");
+        }
+        imagePath.append(".png");
+        System.out.println("After Switch " + imagePath.toString());
+        Image buttonImage = new Image(imagePath.toString());
+        ImageView buttonImageView = new ImageView(buttonImage);
+
+        buttonImageView.xProperty().bind(polygon.layoutXProperty().add(50));
+        buttonImageView.yProperty().bind(polygon.layoutYProperty().add(25));
+
+        buttonImageView.setFitWidth(50);
+        buttonImageView.setFitHeight(50);
+
+
+        // Adding the button to the AnchorPane
+        hexboard.getChildren().add(buttonImageView);
+    }
+
     public int[] getCoordinates(Polygon p) {
         int[] result = new int[2];
         String polygon = p.toString();
         //Temporary
-        result[0] = Integer.parseInt(p.toString().substring(14,15));
-        result[1] = Integer.parseInt(p.toString().substring(16,17));
+        result[0] = Integer.parseInt(p.toString().substring(14, 15));
+        result[1] = Integer.parseInt(p.toString().substring(16, 17));
         System.out.println("Chosen field: " + result[0] + " " + result[1]);
         return result;
     }
 
 
-
-    //        URL url = getClass().getResource("/GUI/goaltiles/AAABBB.png");
-//        Image img = new Image(url.toString());
-//        String id = event.getTarget().toString().substring(14, 17);
-//        if (event.getTarget() instanceof Polygon) {
-//            ((Polygon) event.getTarget()).setFill(new ImagePattern(img));
-//        }
-//        System.out.println("Coordinates: " + id);}
     @FXML
     public void endingTurn(ActionEvent e) {
         if (game.isFirstTurn()) {
@@ -522,7 +557,6 @@ public class GameController implements Initializable {
                 //        game.updateState(giveMessage.toString());
                 game.updateState(message.toString());
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
-                chosenTableTile = null;
                 putTileMessage.setLength(0);
                 giveMessage.setLength(0);
                 chosenRegularTile = null;
@@ -549,7 +583,7 @@ public class GameController implements Initializable {
         game = new Game(2);
         //game = new Game(data.getNumberOfPlayers());
         showCats();
-        showButtons();
+        initializeButtons();
         showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         pickedProjectTiles = new int[3];
         spectatedPlayer = game.getCurrentPlayer();
@@ -557,7 +591,7 @@ public class GameController implements Initializable {
         game.updateState("0;project;0;1;2");
         game.updateState("1;project;0;1;3");
         Platform.runLater(() -> border.getScene().setOnKeyPressed(event -> {
-            switch (event.getCode()){
+            switch (event.getCode()) {
                 case D -> changePlayerRight();
                 case A -> changePlayerLeft();
             }
