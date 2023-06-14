@@ -40,6 +40,9 @@ public class GameController implements Initializable {
     @FXML
     private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
     private int[] pickedProjectTiles;
+    @FXML
+    private Button chosenButton;
+    boolean hasMoved = false, tookFromTable = false;
 
     //To keep track of the indexes taken from the table
 
@@ -243,6 +246,12 @@ public class GameController implements Initializable {
         //Field currentField;
         showHand(player);
         showTable();
+        //Deleting the existing ImageView-s with buttons
+        for (Node n :
+                hexboard.getChildren()) {
+            if (n instanceof ImageView)
+                hexboard.getChildren().remove(n);
+        }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 Polygon hexagon = getHexagon(i, j);
@@ -257,6 +266,9 @@ public class GameController implements Initializable {
                     if (hexagon == hex2_4 || hexagon == hex3_2 || hexagon == hex4_3) {
                         hexagon.setFill(Paint.valueOf("#ffcc8e"));
                     } else hexagon.setFill(Paint.valueOf("#d7c9b7"));
+                }
+                if (currentField.hasButton()) {
+                    addColorButton(hexagon, currentField.getRegularTile().getColor());
                 }
             }
         }
@@ -407,7 +419,7 @@ public class GameController implements Initializable {
         return table.getChildren().size() >= 3;
     }
 
-
+    // TODO ZARAZ POPRAWIAM
     StringBuilder putTileMessage = new StringBuilder();
     StringBuilder giveMessage = new StringBuilder();
 
@@ -449,22 +461,7 @@ public class GameController implements Initializable {
                 // To prevent left-over value from disturbing the program
                 chosenRegularTile = null;
             }
-            if( chosenTableTile != null &&  onHand.getChildren().size() == 1
-            && hasMoved
-            ){
-                giveMessage.append(game.getCurrentPlayer() + ";");
-                int index2 = table.getChildren().indexOf(chosenTableTile);
-                pickTableTile(chosenTableTile);
-                giveMessage.append("give;");
-                giveMessage.append(index2);
 
-                System.out.println(giveMessage);
-
-                game.updateState(giveMessage.toString());
-
-                // To prevent left-over value from disturbing the program
-                chosenTableTile = null;
-            }
             // Setting up the button
             if (chosenButton != null) {
                 System.out.println("Choosing button");
@@ -596,6 +593,5 @@ public class GameController implements Initializable {
                 case A -> changePlayerLeft();
             }
         }));
-
     }
 }
