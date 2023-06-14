@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="calico" />
+        <module name="apro2_23l_pro_pt_3.4_calico" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
