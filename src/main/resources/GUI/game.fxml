@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
+<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
     <center>
         <AnchorPane fx:id="hexboard" style="-fx-background-color: lightblue;" BorderPane.alignment="CENTER">
             <children>
@@ -211,13 +211,13 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button fx:id="yellow" mnemonicParsing="false" onMouseClicked="#buttonOnClick" prefHeight="60.0" prefWidth="60.0" />
-                        <Button fx:id="dblue" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" />
-                        <Button fx:id="lblue" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="1" />
-                        <Button fx:id="purple" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="2" />
-                        <Button fx:id="pink" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="3" />
-                        <Button fx:id="green" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Button fx:id="rainbow" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button fx:id="yellow" mnemonicParsing="false" onMouseClicked="#colorButtonTrigger" prefHeight="60.0" prefWidth="60.0" />
+                        <Button fx:id="green" mnemonicParsing="false" onMouseClicked="#colorButtonTrigger" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" />
+                        <Button fx:id="pink" mnemonicParsing="false" onMouseClicked="#colorButtonTrigger" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="1" />
+                        <Button fx:id="purple" mnemonicParsing="false" onMouseClicked="#colorButtonTrigger" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="2" />
+                        <Button fx:id="rainbow" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="3" />
+                        <Button fx:id="dblue" mnemonicParsing="false" onMouseClicked="#colorButtonTrigger" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="lblue" mnemonicParsing="false" onMouseClicked="#colorButtonTrigger" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
             </children>
@@ -226,7 +226,7 @@
     <top>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="message" alignment="CENTER" layoutX="145.0" layoutY="3.0" prefHeight="39.0" prefWidth="687.0" text="Label">
+                <Label fx:id="message" alignment="CENTER" layoutY="-6.0" prefHeight="39.0" prefWidth="687.0" text="Label">
                     <font>
                         <Font name="Calibri" size="32.0" />
                     </font>

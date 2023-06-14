@@ -1,4 +1,4 @@
-package game;
+package gamepackage;
 
 @SuppressWarnings("SpellCheckingInspection")
 public enum ProjectTileType {

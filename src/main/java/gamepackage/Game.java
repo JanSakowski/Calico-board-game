@@ -1,4 +1,4 @@
-package game;
+package gamepackage;
 
 import java.io.*;
 import java.util.*;
@@ -133,11 +133,6 @@ public class Game implements Serializable {
                         System.out.println("index is: " + index);
                         tilesOnTable.remove(index);
                         tilesOnTable.add(regularTilesLeft.pop());
-                        System.out.println("On table are:");
-                        for (Tile t:
-                             getTilesOnTable()) {
-                            System.out.print(t + " -> ");
-                        }
                     }
                 }
                 case "put_tile" -> {
@@ -154,7 +149,6 @@ public class Game implements Serializable {
                     int x = Integer.parseInt(split[2]);
                     int y = Integer.parseInt(split[3]);
                     boolean flag = players[currentPlayer].putColorButton(x, y);
-                    System.out.println("Attempt to put the button. flag: " + flag + "put_tile case");
                 }
                 case "put_cat" -> {
                     if (split.length != 5)
@@ -177,7 +171,6 @@ public class Game implements Serializable {
                     currentPlayer++;
                     if (currentPlayer == players.length)
                         currentPlayer = 0;
-                    System.out.println("Ending tour");
                 }
                 default -> throw new IllegalArgumentException("Incorrect message type");
             }
@@ -224,5 +217,6 @@ public class Game implements Serializable {
         game.updateState("0;put_tile;0;1;1");
         game.updateState("0;give;2");
         game.updateState("0;end");
+
     }
 }

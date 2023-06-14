@@ -1,4 +1,4 @@
-package game;
+package gamepackage;
 
 /**
  * Represents the type of the shape liked by a cat

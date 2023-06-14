@@ -1,6 +1,6 @@
 package network;
 
-import game.Game;
+import gamepackage.Game;
 
 import java.io.*;
 import java.net.Socket;

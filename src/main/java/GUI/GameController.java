@@ -1,7 +1,7 @@
 package GUI;
 
 
-import game.*;
+import gamepackage.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +42,7 @@ public class GameController implements Initializable {
     private int[] pickedProjectTiles;
     @FXML
     private Button chosenButton;
+    private gamepackage.Color chosenButtonColor;
     boolean hasMoved = false, tookFromTable = false;
 
     //To keep track of the indexes taken from the table
@@ -231,11 +232,20 @@ public class GameController implements Initializable {
 
 
     @FXML
-    void buttonOnClick(MouseEvent event) {
+    void colorButtonTrigger(MouseEvent event) {
         if (event.getTarget() instanceof Button) {
             chosenButton = ((Button) event.getTarget());
             // Deselecting other tiles
             if (chosenRegularTile != null) chosenRegularTile = null;
+            String fxid = chosenButton.getId();
+            switch (fxid){
+                case "yellow" -> chosenButtonColor = gamepackage.Color.YELLOW;
+                case "dblue" -> chosenButtonColor = gamepackage.Color.DARK_BLUE;
+                case "lblue" -> chosenButtonColor = gamepackage.Color.LIGHT_BLUE;
+                case "green" -> chosenButtonColor = gamepackage.Color.GREEN;
+                case "purple" -> chosenButtonColor = gamepackage.Color.PURPLE;
+                case "pink" -> chosenButtonColor = gamepackage.Color.MAGENTA;
+            }
         }
     }
 
@@ -243,14 +253,15 @@ public class GameController implements Initializable {
     void showPlayersBoard(Player player) {
         showButtons(player);
         spectatedPlayer = Arrays.asList(game.getPlayers()).indexOf(player);
-        //Field currentField;
         showHand(player);
         showTable();
         //Deleting the existing ImageView-s with buttons
-        for (Node n :
-                hexboard.getChildren()) {
-            if (n instanceof ImageView)
-                hexboard.getChildren().remove(n);
+        int childrenLength = hexboard.getChildren().size();
+        for (int i = childrenLength - 1; i >= 0; i--) {
+            if ( hexboard.getChildren().get(i) instanceof ImageView ) {
+                System.out.println("imageview swiruje");
+                hexboard.getChildren().remove(i);
+            }
         }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
@@ -268,6 +279,7 @@ public class GameController implements Initializable {
                     } else hexagon.setFill(Paint.valueOf("#d7c9b7"));
                 }
                 if (currentField.hasButton()) {
+                    System.out.println("is it the if??");
                     addColorButton(hexagon, currentField.getRegularTile().getColor());
                 }
             }
@@ -418,8 +430,6 @@ public class GameController implements Initializable {
     private boolean isTableFull() {
         return table.getChildren().size() >= 3;
     }
-
-    // TODO ZARAZ POPRAWIAM
     StringBuilder putTileMessage = new StringBuilder();
     StringBuilder giveMessage = new StringBuilder();
 
@@ -470,22 +480,25 @@ public class GameController implements Initializable {
                 // Putting the button on the tile
                 if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
                     System.out.println("Button chosen. Placing");
-                    addColorButton(chosenField, game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor());
-                    //chosenField.setFill(chosenButton.getTextFill());
+                    addColorButton(chosenField, chosenButtonColor);
                     // To prevent left-over value from disturbing the program
                     chosenButton = null;
+                    chosenButtonColor = null;
                 }
 
             }
         }
     }
+    /**
+     * Method for choosing a cat and placing it on the board
+     */
 
     /**
      * Method for adding color buttons. Used when showing player's board and placing the buttons
      *
      * @param polygon
      */
-    public void addColorButton(Polygon polygon, game.Color color) {
+    public void addColorButton(Polygon polygon, gamepackage.Color color) {
         StringBuilder imagePath = new StringBuilder();
         imagePath.append("/GUI/");
         System.out.println("Before Switch");
@@ -498,15 +511,17 @@ public class GameController implements Initializable {
             case DARK_BLUE -> imagePath.append("darkblue/darkblue");
         }
         imagePath.append(".png");
-        System.out.println("After Switch " + imagePath.toString());
-        Image buttonImage = new Image(imagePath.toString());
+        URL url = getClass().getResource(imagePath.toString());
+        System.out.println("After Switch " + imagePath);
+        Image buttonImage = new Image(url.toString());
+
         ImageView buttonImageView = new ImageView(buttonImage);
 
-        buttonImageView.xProperty().bind(polygon.layoutXProperty().add(50));
-        buttonImageView.yProperty().bind(polygon.layoutYProperty().add(25));
+        buttonImageView.xProperty().bind(polygon.layoutXProperty().add(-90));
+        buttonImageView.yProperty().bind(polygon.layoutYProperty().add(-50));
 
-        buttonImageView.setFitWidth(50);
-        buttonImageView.setFitHeight(50);
+        //buttonImageView.setFitWidth(50);
+        //buttonImageView.setFitHeight(50);
 
 
         // Adding the button to the AnchorPane
@@ -519,7 +534,6 @@ public class GameController implements Initializable {
         //Temporary
         result[0] = Integer.parseInt(p.toString().substring(14, 15));
         result[1] = Integer.parseInt(p.toString().substring(16, 17));
-        System.out.println("Chosen field: " + result[0] + " " + result[1]);
         return result;
     }
 
