@@ -6,6 +6,9 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -35,8 +38,6 @@ public class GameController implements Initializable {
     private Polygon chosenProjectTile = null;
     private Polygon chosenRegularTile = null;
     private int spectatedPlayer = 0;
-    @FXML
-    BorderPane border;
     @FXML
     private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
     private int[] pickedProjectTiles;
@@ -139,6 +140,8 @@ public class GameController implements Initializable {
                 changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
                 polygon.setOnMouseClicked(this::tableTileOnClick);
                 table.add(polygon, 0, i);
+                table.setHalignment(polygon, HPos.CENTER);
+                table.setValignment(polygon, VPos.CENTER);
             }
         }
     }
@@ -152,10 +155,13 @@ public class GameController implements Initializable {
                     changeFill(polygon, getImagePath(player.getProjectTiles()[i]));
                     polygon.setOnMouseClicked(this::handTileOnClick);
                     onHand.add(polygon, i, 0);
+                    onHand.setHalignment(polygon, HPos.CENTER);
+                    onHand.setValignment(polygon, VPos.CENTER);
                 }
             } else {
                 onHand.getChildren().clear();
             }
+
         } else {
             onHand.getChildren().clear();
             if (player == game.getPlayers()[game.getCurrentPlayer()]) {
@@ -163,25 +169,34 @@ public class GameController implements Initializable {
                 changeFill(polygon, getImagePath(player.getTilesOnHand().get(0)));
                 polygon.setOnMouseClicked(this::handTileOnClick);
                 onHand.add(polygon, 1, 0);
+                onHand.setHalignment(polygon, HPos.CENTER);
+                onHand.setValignment(polygon, VPos.CENTER);
                 if (player.getTilesOnHand().size() > 1) {
                     polygon = makeNewHexagon(1);
                     changeFill(polygon, getImagePath(player.getTilesOnHand().get(1)));
                     polygon.setOnMouseClicked(this::handTileOnClick);
                     onHand.add(polygon, 2, 0);
                 }
+                onHand.setHalignment(polygon, HPos.CENTER);
+                onHand.setValignment(polygon, VPos.CENTER);
             } else {
                 Polygon polygon = makeNewHexagon(1);
                 polygon.setFill(Paint.valueOf("#d7c9b7"));
                 //polygon.setOnMouseClicked(this::regularTileOnClick);
                 onHand.add(polygon, 1, 0);
+                onHand.setHalignment(polygon, HPos.CENTER);
+                onHand.setValignment(polygon, VPos.CENTER);
                 if (player.getTilesOnHand().size() > 1) {
                     polygon = makeNewHexagon(1);
                     polygon.setFill(Paint.valueOf("#d7c9b7"));
                     //polygon.setOnMouseClicked(this::regularTileOnClick);
                     onHand.add(polygon, 2, 0);
                 }
+                onHand.setHalignment(polygon, HPos.CENTER);
+                onHand.setValignment(polygon, VPos.CENTER);
             }
         }
+
     }
 
     @FXML
@@ -364,6 +379,8 @@ public class GameController implements Initializable {
             Polygon patternTile = makeNewHexagon(1);
             changeFill(patternTile, path);
             cat0Patterns.add(patternTile, i, 0);
+            cat0Patterns.setHalignment(patternTile, HPos.CENTER);
+            cat0Patterns.setValignment(patternTile, VPos.CENTER);
         }
         //cat1
         url = getClass().getResource(getCatPath(cats[1]));
@@ -374,6 +391,8 @@ public class GameController implements Initializable {
             Polygon patternTile = makeNewHexagon(1);
             changeFill(patternTile, path);
             cat1Patterns.add(patternTile, i, 0);
+            cat1Patterns.setHalignment(patternTile, HPos.CENTER);
+            cat1Patterns.setValignment(patternTile, VPos.CENTER);
         }
         //cat2
         url = getClass().getResource(getCatPath(cats[2]));
@@ -384,6 +403,8 @@ public class GameController implements Initializable {
             Polygon patternTile = makeNewHexagon(1);
             changeFill(patternTile, path);
             cat2Patterns.add(patternTile, i, 0);
+            cat2Patterns.setHalignment(patternTile, HPos.CENTER);
+            cat2Patterns.setValignment(patternTile, VPos.CENTER);
         }
     }
 
@@ -403,6 +424,7 @@ public class GameController implements Initializable {
 
     @FXML
     private void initializeButtons() {
+        colorButtons.setAlignment(Pos.CENTER);
         setButtonsBackground(yellow, "/GUI/yellow/yellow.png");
         setButtonsBackground(pink, "/GUI/pink/pink.png");
         setButtonsBackground(purple, "/GUI/purple/purple.png");
@@ -601,7 +623,7 @@ public class GameController implements Initializable {
         for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
         game.updateState("0;project;0;1;2");
         game.updateState("1;project;0;1;3");
-        Platform.runLater(() -> border.getScene().setOnKeyPressed(event -> {
+        Platform.runLater(() -> cat0.getScene().setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case D -> changePlayerRight();
                 case A -> changePlayerLeft();
