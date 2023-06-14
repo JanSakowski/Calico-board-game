@@ -10,8 +10,6 @@ public class Player implements Scored, Serializable {
     private final ArrayList<RegularTile> tilesOnHand;
     private final ProjectTile[] projectTiles;
     private final Board board;
-    // Whether a player can make a move
-    private boolean activity;
     private final int index;
 
     /**
@@ -54,9 +52,6 @@ public class Player implements Scored, Serializable {
         this.board = board;
         this.projectTiles = projectTiles;
         tilesOnHand = new ArrayList<>();
-
-        // TEMPORARY
-        activity = true;
     }
 
     /**
@@ -142,16 +137,5 @@ public class Player implements Scored, Serializable {
     @Override
     public int getScore() {
         return board.getScore();
-    }
-
-    /**
-     * Getters and setters
-     * @return
-     */
-    public boolean getActivity() {
-        return activity;
-    }
-    public void changeActivity() {
-        activity = !activity;
     }
 }

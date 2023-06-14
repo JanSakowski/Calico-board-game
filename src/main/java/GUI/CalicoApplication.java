@@ -15,7 +15,7 @@ public class CalicoApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Calico");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcomescreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene (root);
         stage.setScene(scene);

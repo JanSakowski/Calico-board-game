@@ -139,9 +139,6 @@ public class Game implements Serializable {
                             System.out.print(t + " -> ");
                         }
                     }
-
-                    //temporary
-                    System.out.println("chosen table tile successfully. Array state: " + tilesOnTable.size());
                 }
                 case "put_tile" -> {
                     if (split.length != 5)
@@ -150,15 +147,14 @@ public class Game implements Serializable {
                     int x = Integer.parseInt(split[3]);
                     int y = Integer.parseInt(split[4]);
                     players[currentPlayer].putTile(index, x, y);
-                    //temporary
-                    System.out.println("tile put successfully");
                 }
                 case "put_color" -> {
                     if (split.length != 4)
                         throw new IllegalArgumentException("Expected integers for x and y");
                     int x = Integer.parseInt(split[2]);
                     int y = Integer.parseInt(split[3]);
-                    players[currentPlayer].putColorButton(x, y);
+                    boolean flag = players[currentPlayer].putColorButton(x, y);
+                    System.out.println("Attempt to put the button. flag: " + flag + "put_tile case");
                 }
                 case "put_cat" -> {
                     if (split.length != 5)
@@ -220,12 +216,6 @@ public class Game implements Serializable {
             e.printStackTrace();
             return null;
         }
-    }
-    /**
-    TEMPORARY
-    **/
-    public void changeActivityOfCurrentPlayer(){
-        players[currentPlayer].changeActivity();
     }
     public static void main(String[] args) {
         Game game = new Game(2);

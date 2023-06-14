@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
     <center>
         <AnchorPane fx:id="hexboard" style="-fx-background-color: lightblue;" BorderPane.alignment="CENTER">
             <children>
@@ -211,7 +211,7 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" />
+                        <Button mnemonicParsing="false" onMouseClicked="#buttonOnClick" prefHeight="60.0" prefWidth="60.0" />
                         <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.columnIndex="1" />
                         <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="1" />
                         <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" GridPane.rowIndex="2" />
@@ -226,7 +226,7 @@
     <top>
         <AnchorPane BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="message" alignment="CENTER" layoutX="194.0" layoutY="3.0" prefHeight="39.0" prefWidth="687.0" text="Label">
+                <Label fx:id="message" alignment="CENTER" layoutX="145.0" layoutY="3.0" prefHeight="39.0" prefWidth="687.0" text="Label">
                     <font>
                         <Font name="Calibri" size="32.0" />
                     </font>

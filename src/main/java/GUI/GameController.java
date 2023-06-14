@@ -126,13 +126,13 @@ public class GameController implements Initializable {
     @FXML
     private void showTable() {
         if (!game.isFirstTurn()) {
-                for (int i = 0; i < 3; i++) {
-                    System.out.println("initial setup");
-                    Polygon polygon = makeNewHexagon(1);
-                    changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
-                    polygon.setOnMouseClicked(this::tableTileOnClick);
-                    table.add(polygon, 0, i);
-                }
+            table.getChildren().clear();
+            for (int i = 0; i < 3; i++) {
+                Polygon polygon = makeNewHexagon(1);
+                changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
+                polygon.setOnMouseClicked(this::tableTileOnClick);
+                table.add(polygon, 0, i);
+            }
         }
     }
 
@@ -193,6 +193,7 @@ public class GameController implements Initializable {
         } else {
             if ( event.getTarget() instanceof Polygon ) {
                 chosenRegularTile = ( (Polygon) event.getTarget() );
+                if (chosenTableTile != null ) chosenTableTile = null;
             }
         }
     }
@@ -200,6 +201,22 @@ public class GameController implements Initializable {
     void tableTileOnClick(MouseEvent event) {
         if (event.getTarget() instanceof Polygon) {
             chosenTableTile = ( (Polygon) event.getTarget() );
+            // Deselecting other tiles
+            if ( chosenRegularTile != null ) chosenRegularTile = null;
+        }
+    }
+
+    /**
+     * temp
+     */
+    @FXML
+    Button chosenButton;
+    @FXML
+    void buttonOnClick(MouseEvent event) {
+        if (event.getTarget() instanceof  Button) {
+            chosenButton = ( (Button) event.getTarget() );
+            // Deselecting other tiles
+            if (chosenRegularTile != null) chosenRegularTile = null;
         }
     }
 
@@ -280,7 +297,6 @@ public class GameController implements Initializable {
     private void putRegularTile( Polygon regularTile, Polygon regularTileDestination ) {
         if ( regularTileDestination.getFill().getClass() != ImagePattern.class ) {
             regularTileDestination.setFill(regularTile.getFill());
-            game.getPlayers()[game.getCurrentPlayer()].changeActivity();
             onHand.getChildren().remove(regularTile);
         }
          else {
@@ -400,49 +416,60 @@ public class GameController implements Initializable {
                 }
             }
         } else {
-            putTileMessage.append(game.getCurrentPlayer());
-            putTileMessage.append(";");
             Polygon chosenField = (Polygon) event.getTarget();
-//            double x = event.getX();
-  //          double y = event.getY();
             if ( chosenRegularTile != null
                     && onHand.getChildren().size() == 2
-            //        && game.getPlayers()[game.getCurrentPlayer()].getActivity()
                     && !hasMoved
             ) {
                 int index = onHand.getChildren().indexOf(chosenRegularTile);
-                putRegularTile(chosenRegularTile, chosenField );
-                putTileMessage.append("put_tile;");
-                putTileMessage.append(index);
-                putTileMessage.append(";");
-                String[] coordinates = getCoordinates(chosenField);
-                putTileMessage.append(coordinates[0]);
-                putTileMessage.append(";");
-                putTileMessage.append(coordinates[1]);
-                game.updateState(putTileMessage.toString());
+                int[] coordinates = getCoordinates(chosenField);
+                if ( game.getPlayers()[game.getCurrentPlayer()].putTile(index, coordinates[0], coordinates[1]) ) {
+                    System.out.println("Placing the tile");
+                    putRegularTile(chosenRegularTile, chosenField );
+                }
                 hasMoved = true;
+
+                // To prevent left-over value from disturbing the program
+                chosenRegularTile = null;
             }
             if( chosenTableTile != null &&  onHand.getChildren().size() == 1
             && hasMoved
             ){
                 giveMessage.append(game.getCurrentPlayer() + ";");
                 int index2 = table.getChildren().indexOf(chosenTableTile);
-                System.out.println(table.getChildren().size());
-                System.out.println("Chosen index: " + index2);
                 pickTableTile(chosenTableTile);
                 giveMessage.append("give;");
                 giveMessage.append(index2);
+
                 System.out.println(giveMessage);
+
                 game.updateState(giveMessage.toString());
+
+                // To prevent left-over value from disturbing the program
+                chosenTableTile = null;
+            }
+            // Setting up the button
+            if ( chosenButton != null ) {
+                System.out.println("Choosing button");
+                int[] coordinates = getCoordinates(chosenField);
+
+                // Putting the button on the tile
+                //TODO MAKE IT PERMANENT
+                if ( game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1]) ) {
+                    chosenField.setFill(chosenButton.getTextFill());
+                    // To prevent left-over value from disturbing the program
+                    chosenButton = null;
+                }
+
             }
         }
     }
-    public String[] getCoordinates(Polygon p) {
-        String[] result = new String[2];
+    public int[] getCoordinates(Polygon p) {
+        int[] result = new int[2];
         String polygon = p.toString();
         //Temporary
-        result[0] = p.toString().substring(14,15);
-        result[1] = p.toString().substring(16,17);
+        result[0] = Integer.parseInt(p.toString().substring(14,15));
+        result[1] = Integer.parseInt(p.toString().substring(16,17));
         System.out.println("Chosen field: " + result[0] + " " + result[1]);
         return result;
     }
@@ -479,10 +506,8 @@ public class GameController implements Initializable {
             message.append(game.getCurrentPlayer());
             message.append(";end");
             System.out.println("endmessage");
+            System.out.println(table.getChildren());
             if (!isTableFull()) {
-                System.out.println("table not full");
-        //        game.updateState(putTileMessage.toString());
-        //        game.updateState(giveMessage.toString());
                 game.updateState(message.toString());
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
                 chosenTableTile = null;
@@ -499,11 +524,14 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameDataMonostate data = new GameDataMonostate();
-        game = new Game(data.getNumberOfPlayers());
+        //game = new Game(data.getNumberOfPlayers());
+        game = new Game(2);
         showCats();
         showButtons();
         showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         pickedProjectTiles = new int[3];
         for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
+        game.updateState("0;project;0;1;2");
+        game.updateState("1;project;0;1;3");
     }
 }
