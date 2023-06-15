@@ -1,7 +1,7 @@
 package network;
 
-import game.Game;
-import game.Player;
+import gamepackage.Game;
+import gamepackage.Player;
 
 import java.io.*;
 import java.net.ServerSocket;

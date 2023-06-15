@@ -6,6 +6,6 @@ module com.example.calico {
     opens GUI to javafx.fxml;
     exports GUI;
 
-    opens game;
-    exports game;
+    opens gamepackage;
+    exports gamepackage;
 }

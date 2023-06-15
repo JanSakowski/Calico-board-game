@@ -1,4 +1,4 @@
-import game.*;
+import gamepackage.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

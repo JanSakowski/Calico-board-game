@@ -1,4 +1,4 @@
-package game;
+package gamepackage;
 
 import java.util.ArrayList;
 import java.util.EnumMap;

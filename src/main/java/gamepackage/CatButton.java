@@ -1,4 +1,4 @@
-package game;
+package gamepackage;
 
 /**
  * Class representing a cat button
