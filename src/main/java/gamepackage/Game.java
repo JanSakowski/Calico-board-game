@@ -171,7 +171,6 @@ public class Game implements Serializable {
             }
         }
     }
-
     /**
      * Saves a game to file
      *

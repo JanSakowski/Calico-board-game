@@ -261,8 +261,6 @@ public class Board implements Scored, Serializable {
      * @return if placing the button was successful
      */
     public boolean putCatButton(CatButton button, int x, int y, TilePattern[] catsPreferred) {
-        //TODO NGOEANHPOEPHNEORNTO
-        System.out.println("Board.putCatButton");
         Field chosen = fields[y][x];
         if (!chosen.hasRegularTile() || chosen.hasButton() || chosen.isCatGroup())
             return false;
