@@ -10,6 +10,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -253,7 +255,9 @@ public class GameController implements Initializable {
 
     @FXML
     void colorButtonTrigger(MouseEvent event) {
-        if (event.getTarget() instanceof Button) {
+        if (event.getTarget() instanceof Button && tookFromTable == true) {
+            chosenCat = null;
+            chosenRegularTile = null;
             chosenButton = ((Button) event.getTarget());
             // Deselecting other tiles
             if (chosenRegularTile != null) chosenRegularTile = null;
@@ -276,7 +280,11 @@ public class GameController implements Initializable {
      */
     @FXML
     void catButtonTrigger(MouseEvent event) {
-        if (event.getTarget() instanceof ImageView && chosenCat == null) { // So you can't choose another one
+        if (event.getTarget() instanceof ImageView && chosenCat == null && tookFromTable == true) { // So you can't choose another one
+            // Clearing other chosen tiles
+            chosenRegularTile = null;
+            chosenButton = null;
+            chosenButtonColor = null;
             System.out.println(event.getTarget());
             int catIndex = Integer.parseInt(event.getTarget().toString().substring(16, 17));
             int it = 0;
@@ -289,15 +297,12 @@ public class GameController implements Initializable {
             chosenCat = game.getCatBoards().get(cats[catIndex]);
             System.out.println("Wybrany kot: " + chosenCat);
             System.out.println("Z " + game.getCatBoards());
-            // Clearing other chosen tiles
-            chosenRegularTile = null;
-            chosenButton = null;
-            chosenButtonColor = null;
         }
     }
-
+    int tours = 0;
     @FXML
     void showPlayersBoard(Player player) {
+        tours++;
         showButtons(player);
         spectatedPlayer = Arrays.asList(game.getPlayers()).indexOf(player);
         showHand(player);
@@ -309,6 +314,10 @@ public class GameController implements Initializable {
                 System.out.println("imageview usuwa image");
                 hexboard.getChildren().remove(i);
             }
+        }
+        if ( tours == 4) gameEnd();
+        if ( game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull() ) {
+            gameEnd();
         }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
@@ -332,6 +341,27 @@ public class GameController implements Initializable {
                 }
             }
         }
+    }
+    public void gameEnd() {
+        int[] scores = new int [game.getPlayers().length];
+        for (int i = 0; i < game.getPlayers().length; i++) {
+            scores[i] = game.getPlayers()[game.getCurrentPlayer()].getScore();
+        }
+        GameDataMonostate mono = new GameDataMonostate(game);
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Game over!");
+        a.setHeaderText("The last player has finished their quilt!");
+        a.setContentText("Let's sum up your points!");
+        a.showAndWait();
+
+        GameEndApplication newController = new GameEndApplication();
+        try {
+            newController.start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     private void changeFill(Polygon hexagon, String path) {
@@ -504,6 +534,7 @@ public class GameController implements Initializable {
     }
     @FXML
     void clickDetected(MouseEvent event) {
+        System.out.println("clockDetected");
         //projectTiles actions
         if (game.isFirstTurn()) {
             Polygon picked = null;
@@ -558,7 +589,7 @@ public class GameController implements Initializable {
                     putRegularTile(chosenRegularTile, chosenField);
                 }
                 hasMoved = true;
-
+                System.out.println("chosenRegularTile");
                 // To prevent left-over value from disturbing the program
                 chosenRegularTile = null;
             }
@@ -568,6 +599,7 @@ public class GameController implements Initializable {
                 // Putting the button on the tile
                 if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
                     addColorButton(chosenField, chosenButtonColor);
+                    System.out.println("chosenButton");
                     // To prevent left-over value from disturbing the program
                     chosenButton = null;
                     chosenButtonColor = null;
@@ -578,18 +610,11 @@ public class GameController implements Initializable {
             if (chosenCat != null) {
                 if (game.getPlayers()[game.getCurrentPlayer()].putCatButton(chosenCat, coordinates[0], coordinates[1])) {
                     addCatButton(chosenField, chosenCat.getCat());
-                    //TODO QUESTIONABLE FUNCTIONALITY TO BE CORRECTED
+                    System.out.println("chosenCat");
                     chosenCat = null;
                 }
             }
         }
-    }
-
-    /**
-     * Method for choosing a cat and placing it on the board
-     */
-    void placeCat() {
-
     }
 
     /**
