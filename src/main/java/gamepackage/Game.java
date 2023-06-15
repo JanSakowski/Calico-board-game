@@ -230,43 +230,43 @@ public class Game implements Serializable {
         }
         int w = 1;
         if (catBoards.containsKey(Cat.ALMOND)) {
-            boardState.put("catBoard" + String.valueOf(w), "Almond" + ";" + catBoards.get(Cat.ALMOND).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.ALMOND).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "ALMOND" + ";" + catBoards.get(Cat.ALMOND).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.ALMOND).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.CIRA)) {
-            boardState.put("catBoard" + String.valueOf(w), "Cira" + ";" + catBoards.get(Cat.CIRA).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.CIRA).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "CIRA" + ";" + catBoards.get(Cat.CIRA).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.CIRA).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.CALLIE)) {
-            boardState.put("catBoard" + String.valueOf(w), "Callie" + ";" + catBoards.get(Cat.CALLIE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.CALLIE).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "CALLIE" + ";" + catBoards.get(Cat.CALLIE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.CALLIE).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.COCONUT)) {
-            boardState.put("catBoard" + String.valueOf(w), "Coconut" + ";" + catBoards.get(Cat.COCONUT).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.COCONUT).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "COCONUT" + ";" + catBoards.get(Cat.COCONUT).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.COCONUT).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.GWENIVERSE)) {
-            boardState.put("catBoard" + String.valueOf(w), "Gwen" + ";" + catBoards.get(Cat.GWENIVERSE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.GWENIVERSE).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "GWENIVERSE" + ";" + catBoards.get(Cat.GWENIVERSE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.GWENIVERSE).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.LEO)) {
-            boardState.put("catBoard" + String.valueOf(w), "Leo" + ";" + catBoards.get(Cat.LEO).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.LEO).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "LEO" + ";" + catBoards.get(Cat.LEO).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.LEO).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.RUMI)) {
-            boardState.put("catBoard" + String.valueOf(w), "Rumi" + ";" + catBoards.get(Cat.RUMI).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.RUMI).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "RUMI" + ";" + catBoards.get(Cat.RUMI).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.RUMI).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.TECOLOTE)) {
-            boardState.put("catBoard" + String.valueOf(w), "Tecolote" + ";" + catBoards.get(Cat.TECOLOTE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.TECOLOTE).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "TECOLOTE" + ";" + catBoards.get(Cat.TECOLOTE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.TECOLOTE).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.TIBBIT)) {
-            boardState.put("catBoard" + String.valueOf(w), "Tibbit" + ";" + catBoards.get(Cat.TIBBIT).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.TIBBIT).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "TIBBIT" + ";" + catBoards.get(Cat.TIBBIT).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.TIBBIT).getPreferredPatterns()[1].toString());
             w++;
         }
         if (catBoards.containsKey(Cat.MILLIE)) {
-            boardState.put("catBoard" + String.valueOf(w), "Millie" + ";" + catBoards.get(Cat.MILLIE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.MILLIE).getPreferredPatterns()[1].toString());
+            boardState.put("catBoard" + String.valueOf(w), "MILLIE" + ";" + catBoards.get(Cat.MILLIE).getPreferredPatterns()[0].toString() + ";" + catBoards.get(Cat.MILLIE).getPreferredPatterns()[1].toString());
         }
         // boardState.put("TilesNotUsed", String.valueOf(regularTilesLeft.size()));
         for (int i = 0; i < regularTilesLeft.size(); i++) {
@@ -376,27 +376,28 @@ public class Game implements Serializable {
         regularTilesLeft.clear();
         RegularTile[][] onHandTiles = new RegularTile[4][3];
         Board[] playerBoards = new Board[4];
+        for(int  i=0; i<4; i++){
+            playerBoards[i] = Board.getRandom(new Random());
+        }
         ProjectTile[][] PlayersProjectTiles = new ProjectTile[4][4];
         for (Map.Entry<String, String> element : loadedData.entrySet()) {
             switch (element.getKey().substring(0, 2)) {
-                case "Nu":
-                    numberOfPlayers = Integer.parseInt(element.getValue());
-                    break;
-                case "Cu":
-                    currentPlayer = Integer.parseInt(element.getValue());
-                    break;
-                case "Ti":
+                case "Nu" -> numberOfPlayers = Integer.parseInt(element.getValue());
+                case "Cu" -> currentPlayer = Integer.parseInt(element.getValue());
+                case "Ti" -> {
                     String[] helperTableTile = element.getValue().split(";");
                     tilesOnTable.add(new RegularTile(Color.valueOf(helperTableTile[1]), TilePattern.valueOf(helperTableTile[0])));
-                    break;
-                case "Ca":
+                }
+                case "ca" -> {
                     String[] helperCatBoard = element.getValue().split(";");
                     TilePattern[] helperCatPatterns = {TilePattern.valueOf(helperCatBoard[1]), TilePattern.valueOf(helperCatBoard[2])};
                     catBoards.put(Cat.valueOf(helperCatBoard[0]), new CatBoard(Cat.valueOf(helperCatBoard[0]), helperCatPatterns));
-                case "no":
+                }
+                case "no" -> {
                     String[] helperNotUsed = element.getValue().split(";");
                     regularTilesLeft.add(new RegularTile(Color.valueOf(helperNotUsed[1]), TilePattern.valueOf(helperNotUsed[0])));
-                case "Pl":
+                }
+                case "Pl" -> {
                     String[] helperHandSize = element.getKey().split(";");
                     String[] helperHandTiles = element.getValue().split(";");
                     if (Integer.parseInt(helperHandSize[2]) == 2) {
@@ -407,82 +408,41 @@ public class Game implements Serializable {
                         onHandTiles[Integer.parseInt(helperHandSize[1])][0] = null;
                         onHandTiles[Integer.parseInt(helperHandSize[1])][1] = new RegularTile(Color.valueOf(helperHandTiles[1]), TilePattern.valueOf(helperHandTiles[0]));
                     }
-                case "If":
-                    firstTurn = Objects.equals(element.getValue(), "True");
-                case "1;":
-                    String[] helperPosition1 = element.getKey().split(";");   //4,2 2,3 3,4
-                    String[] helperTile1 = element.getValue().split(";");
-                    if (Integer.parseInt(helperPosition1[1]) == 4 && Integer.parseInt(helperPosition1[2]) == 2) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition1[0])][0] = new ProjectTile(ProjectTileType.valueOf(helperTile1[0]));
+                }
+                case "If" -> firstTurn = Objects.equals(element.getValue(), "True");
+                case "1;", "4;", "3;", "2;" -> {
+                    String[] helperPosition = element.getKey().split(";");   //4,2 2,3 3,4
+                    String[] helperTile = element.getValue().split(";");
+                    if(!Objects.equals(helperTile[0], "null")){
+                    if (Integer.parseInt(helperPosition[1]) == 4 && Integer.parseInt(helperPosition[2]) == 2) {
+                        PlayersProjectTiles[Integer.parseInt(helperPosition[0])][0] = new ProjectTile(ProjectTileType.valueOf(helperTile[0]));
 
-                    } else if (Integer.parseInt(helperPosition1[1]) == 2 && Integer.parseInt(helperPosition1[2]) == 3) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition1[0])][1] = new ProjectTile(ProjectTileType.valueOf(helperTile1[0]));
+                    } else if (Integer.parseInt(helperPosition[1]) == 2 && Integer.parseInt(helperPosition[2]) == 3) {
+                        PlayersProjectTiles[Integer.parseInt(helperPosition[0])][1] = new ProjectTile(ProjectTileType.valueOf(helperTile[0]));
 
-                    } else if (Integer.parseInt(helperPosition1[1]) == 3 && Integer.parseInt(helperPosition1[2]) == 4) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition1[0])][2] = new ProjectTile(ProjectTileType.valueOf(helperTile1[0]));
+                    } else if (Integer.parseInt(helperPosition[1]) == 3 && Integer.parseInt(helperPosition[2]) == 4) {
+                        PlayersProjectTiles[Integer.parseInt(helperPosition[0])][2] = new ProjectTile(ProjectTileType.valueOf(helperTile[0]));
                     } else {
-                        playerBoards[Integer.parseInt(helperPosition1[0])].putTileJSON(new RegularTile(Color.valueOf(helperTile1[1]), TilePattern.valueOf(helperTile1[0])), Integer.parseInt(helperPosition1[1]), Integer.parseInt(helperPosition1[2]));
-                        playerBoards[Integer.parseInt(helperPosition1[0])].putColorButtonJSON(Color.valueOf(helperTile1[2]), Integer.parseInt(helperPosition1[1]), Integer.parseInt(helperPosition1[2]));
-                        playerBoards[Integer.parseInt(helperPosition1[0])].putCatButtonJSON(new CatButton(Cat.valueOf(helperTile1[3])), Integer.parseInt(helperPosition1[1]), Integer.parseInt(helperPosition1[2]));
-                    }
-                case "2;":
-                    String[] helperPosition2 = element.getKey().split(";");   //4,2 2,3 3,4
-                    String[] helperTile2 = element.getValue().split(";");
-                    if (Integer.parseInt(helperPosition2[1]) == 4 && Integer.parseInt(helperPosition2[2]) == 2) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition2[0])][0] = new ProjectTile(ProjectTileType.valueOf(helperTile2[0]));
-
-                    } else if (Integer.parseInt(helperPosition2[1]) == 2 && Integer.parseInt(helperPosition2[2]) == 3) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition2[0])][1] = new ProjectTile(ProjectTileType.valueOf(helperTile2[0]));
-
-                    } else if (Integer.parseInt(helperPosition2[1]) == 3 && Integer.parseInt(helperPosition2[2]) == 4) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition2[0])][2] = new ProjectTile(ProjectTileType.valueOf(helperTile2[0]));
-
-                    } else {
-                        playerBoards[Integer.parseInt(helperPosition2[0])].putTileJSON(new RegularTile(Color.valueOf(helperTile2[1]), TilePattern.valueOf(helperTile2[0])), Integer.parseInt(helperPosition2[1]), Integer.parseInt(helperPosition2[2]));
-                        playerBoards[Integer.parseInt(helperPosition2[0])].putColorButtonJSON(Color.valueOf(helperTile2[2]), Integer.parseInt(helperPosition2[1]), Integer.parseInt(helperPosition2[2]));
-                        playerBoards[Integer.parseInt(helperPosition2[0])].putCatButtonJSON(new CatButton(Cat.valueOf(helperTile2[3])), Integer.parseInt(helperPosition2[1]), Integer.parseInt(helperPosition2[2]));
-                    }
-                case "3;":
-                    String[] helperPosition3 = element.getKey().split(";");   //4,2 2,3 3,4
-                    String[] helperTile3 = element.getValue().split(";");
-                    if (Integer.parseInt(helperPosition3[1]) == 4 && Integer.parseInt(helperPosition3[2]) == 2) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition3[0])][0] = new ProjectTile(ProjectTileType.valueOf(helperTile3[0]));
-
-                    } else if (Integer.parseInt(helperPosition3[1]) == 2 && Integer.parseInt(helperPosition3[2]) == 3) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition3[0])][1] = new ProjectTile(ProjectTileType.valueOf(helperTile3[0]));
-
-                    } else if (Integer.parseInt(helperPosition3[1]) == 3 && Integer.parseInt(helperPosition3[2]) == 4) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition3[0])][2] = new ProjectTile(ProjectTileType.valueOf(helperTile3[0]));
-
-                    } else {
-                        playerBoards[Integer.parseInt(helperPosition3[0])].putTileJSON(new RegularTile(Color.valueOf(helperTile3[1]), TilePattern.valueOf(helperTile3[0])), Integer.parseInt(helperPosition3[1]), Integer.parseInt(helperPosition3[2]));
-                        playerBoards[Integer.parseInt(helperPosition3[0])].putColorButtonJSON(Color.valueOf(helperTile3[2]), Integer.parseInt(helperPosition3[1]), Integer.parseInt(helperPosition3[2]));
-                        playerBoards[Integer.parseInt(helperPosition3[0])].putCatButtonJSON(new CatButton(Cat.valueOf(helperTile3[3])), Integer.parseInt(helperPosition3[1]), Integer.parseInt(helperPosition3[2]));
-                    }
-                case "4;":
-                    String[] helperPosition4 = element.getKey().split(";");   //4,2 2,3 3,4
-                    String[] helperTile4 = element.getValue().split(";");
-                    if (Integer.parseInt(helperPosition4[1]) == 4 && Integer.parseInt(helperPosition4[2]) == 2) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition4[0])][0] = new ProjectTile(ProjectTileType.valueOf(helperTile4[0]));
-
-                    } else if (Integer.parseInt(helperPosition4[1]) == 2 && Integer.parseInt(helperPosition4[2]) == 3) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition4[0])][1] = new ProjectTile(ProjectTileType.valueOf(helperTile4[0]));
-
-                    } else if (Integer.parseInt(helperPosition4[1]) == 3 && Integer.parseInt(helperPosition4[2]) == 4) {
-                        PlayersProjectTiles[Integer.parseInt(helperPosition4[0])][2] = new ProjectTile(ProjectTileType.valueOf(helperTile4[0]));
-
-                    } else {
-                        playerBoards[Integer.parseInt(helperPosition4[0])].putTileJSON(new RegularTile(Color.valueOf(helperTile4[1]), TilePattern.valueOf(helperTile4[0])), Integer.parseInt(helperPosition4[1]), Integer.parseInt(helperPosition4[2]));
-                        playerBoards[Integer.parseInt(helperPosition4[0])].putColorButtonJSON(Color.valueOf(helperTile4[2]), Integer.parseInt(helperPosition4[1]), Integer.parseInt(helperPosition4[2]));
-                        playerBoards[Integer.parseInt(helperPosition4[0])].putCatButtonJSON(new CatButton(Cat.valueOf(helperTile4[3])), Integer.parseInt(helperPosition4[1]), Integer.parseInt(helperPosition4[2]));
-                    }
+                        playerBoards[Integer.parseInt(helperPosition[0])].putTileJSON(new RegularTile(Color.valueOf(helperTile[1]), TilePattern.valueOf(helperTile[0])), Integer.parseInt(helperPosition[1]), Integer.parseInt(helperPosition[2]));
+                        if(!Objects.equals(helperTile[2], "null")) {
+                            playerBoards[Integer.parseInt(helperPosition[0])].putColorButtonJSON(Color.valueOf(helperTile[2]), Integer.parseInt(helperPosition[1]), Integer.parseInt(helperPosition[2]));
+                        }
+                        if(!Objects.equals(helperTile[3], "null")){
+                        playerBoards[Integer.parseInt(helperPosition[0])].putCatButtonJSON(new CatButton(Cat.valueOf(helperTile[3])), Integer.parseInt(helperPosition[1]), Integer.parseInt(helperPosition[2]));
+                    }}
+                }}
             }
         }
         for(int i =0; i<numberOfPlayers; i++){
             PlayersProjectTiles[i][3] = null;
             players[i] = new Player(i, playerBoards[i], PlayersProjectTiles[i]);
             players[i].setProjectTiles(0,1,2);
+            players[i].addTile(onHandTiles[i][1]);
+            if(onHandTiles[i][0] != null){
+                players[i].addTile(onHandTiles[i][2]);
+            }
         }
+
     }
     public static void main(String[] args) {
         Game game = new Game(4);
