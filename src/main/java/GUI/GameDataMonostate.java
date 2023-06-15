@@ -17,4 +17,5 @@ public class GameDataMonostate {
     public static int getNumberOfPlayers() {
         return numberOfPlayers;
     }
+    public static Game getGame() { return game; }
 }

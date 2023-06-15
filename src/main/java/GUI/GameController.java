@@ -205,6 +205,9 @@ public class GameController implements Initializable {
 
     @FXML
     void handTileOnClick(MouseEvent event) {
+        System.out.println("handTileOnClick");
+        chosenButton = null;
+        chosenCat = null;
         if (game.isFirstTurn()) {
             if (event.getTarget() instanceof Polygon) {
                 chosenProjectTile = ((Polygon) event.getTarget());
@@ -251,8 +254,7 @@ public class GameController implements Initializable {
             chosenCat = null;
             chosenRegularTile = null;
             chosenButton = ((Button) event.getTarget());
-            // Deselecting other tiles
-            if (chosenRegularTile != null) chosenRegularTile = null;
+
             String fxid = chosenButton.getId();
             switch (fxid) {
                 case "yellow" -> chosenButtonColor = gamepackage.Color.YELLOW;
@@ -546,7 +548,12 @@ public class GameController implements Initializable {
     }
     @FXML
     void clickDetected(MouseEvent event) {
-        System.out.println("clockDetected");
+        System.out.println("clickDetected");
+        System.out.println("chosenButton: " + (chosenButton!=null) + "\n");
+        System.out.print("chosenRegularTile: " + (chosenRegularTile!=null) + "\n");
+        System.out.print("chosenColor: " + (chosenButtonColor!=null) + "\n");
+        System.out.print("chosenCat: " + (chosenCat!=null) + "\n");
+        System.out.print("=========================");
         //projectTiles actions
         if (game.isFirstTurn()) {
             Polygon picked = null;
@@ -604,24 +611,34 @@ public class GameController implements Initializable {
                 int index = onHand.getChildren().indexOf(chosenRegularTile);
                 if (game.getPlayers()[game.getCurrentPlayer()].putTile(index, coordinates[0], coordinates[1])) {
                     putRegularTile(chosenRegularTile, chosenField);
+                    hasMoved = true;
                 }
-                hasMoved = true;
                 actionInfo.setText("Choose a tile from the table");
                 System.out.println("chosenRegularTile");
                 // To prevent left-over value from disturbing the program
                 chosenRegularTile = null;
             }
 
-            // Setting up the color button
-            if (chosenButton != null) {
-                // Putting the button on the tile
-                if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
-                    addColorButton(chosenField, chosenButtonColor);
-                    System.out.println("chosenButton");
-                    // To prevent left-over value from disturbing the program
-                    chosenButton = null;
+            // When a button is chosen and the designated field contains a tile
+            if (chosenButton != null && game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile() != null) {
+                // When the chosen color matches the color of field's tile
+                if ( chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
+                    if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
+                        addColorButton(chosenField, chosenButtonColor);
+                        System.out.println("chosenButton");
+                        System.out.println("Button set");
+                        // To prevent left-over value from disturbing the program
+                        chosenButton = null;
+                        chosenButtonColor = null;
+                    }
+                } else {
+                    System.out.println("Wrong color");
                     chosenButtonColor = null;
+                    chosenButton = null;
                 }
+            } else {
+                chosenButtonColor = null;
+                chosenButton = null;
             }
 
             // setting up the cat button
@@ -629,6 +646,8 @@ public class GameController implements Initializable {
                 if (game.getPlayers()[game.getCurrentPlayer()].putCatButton(chosenCat, coordinates[0], coordinates[1])) {
                     addCatButton(chosenField, chosenCat.getCat());
                     System.out.println("chosenCat");
+                    chosenCat = null;
+                } else {
                     chosenCat = null;
                 }
             }
@@ -659,6 +678,7 @@ public class GameController implements Initializable {
 
         buttonImageView.xProperty().bind(polygon.layoutXProperty().add(-90));
         buttonImageView.yProperty().bind(polygon.layoutYProperty().add(-50));
+        chosenButton = null;
         // Adding the button to the AnchorPane
         hexboard.getChildren().add(buttonImageView);
     }
@@ -687,6 +707,7 @@ public class GameController implements Initializable {
         buttonImageView.yProperty().bind(targetPolygon.layoutYProperty().add(-80));
         buttonImageView.setScaleX(0.4);
         buttonImageView.setScaleY(0.4);
+        chosenCat = null;
         hexboard.getChildren().add(buttonImageView);
     }
 
@@ -719,6 +740,7 @@ public class GameController implements Initializable {
             onHand.getChildren().clear();
             showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         } else {
+            tookFromTable = false;
             StringBuilder message = new StringBuilder();
             message.append(game.getCurrentPlayer());
             message.append(";end");
