@@ -545,4 +545,18 @@ public class Board implements Scored, Serializable {
         result += fields[3][4].getProjectTile().getScore();
         return result;
     }
+
+    /**
+     * Following methods only used for loading game save from JSON file
+     *
+     */
+    public void putCatButtonJSON(CatButton button, int x, int y) {
+        fields[y][x].putButton(button);
+    }
+    public void putColorButtonJSON(Color color, int x, int y) {
+        fields[y][x].putButton(new ColorButton(color));
+    }
+    public void putTileJSON(Tile tile, int x, int y) {
+        fields[y][x].putTile(tile);
+    }
 }
