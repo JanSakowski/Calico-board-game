@@ -43,10 +43,10 @@ public class GameJSONTest {
     @Test
     public void saveAndLoadTest() {
 
-
-        Game testGame = new Game(2);
+int no =4;
+        Game testGame = new Game(no);
         testGame.updateState("0;project;0;1;2");
-        testGame.updateState("1;project;0;1;2");
+        testGame.updateState("1;project;0;1;2");testGame.updateState("2;project;0;1;2");testGame.updateState("3;project;0;1;2");
         System.out.println("IsFirstTurn:");
         System.out.println(testGame.isFirstTurn()); //false
         System.out.println("CurrentPlayer:");
@@ -58,26 +58,22 @@ public class GameJSONTest {
             System.out.println(element.getKey().toString() + " " + Arrays.toString(element.getValue().getPreferredPatterns()));      //Cat, Pattern,Pattern
         }
         System.out.println("HandTiles:");
-        System.out.println(testGame.getPlayers()[0].getTilesOnHand().get(0).getPattern().toString() + " " + testGame.getPlayers()[0].getTilesOnHand().get(0).getColor().toString() + ";" + testGame.getPlayers()[0].getTilesOnHand().get(1).getPattern().toString() + " " + testGame.getPlayers()[0].getTilesOnHand().get(1).getColor().toString());
-        System.out.println(testGame.getPlayers()[1].getTilesOnHand().get(0).getPattern().toString() + " " + testGame.getPlayers()[1].getTilesOnHand().get(0).getColor().toString() + ";" + testGame.getPlayers()[1].getTilesOnHand().get(1).getPattern().toString() + " " + testGame.getPlayers()[1].getTilesOnHand().get(1).getColor().toString());
+                for(int i =0;i<no;i++) {
+                    System.out.println(testGame.getPlayers()[i].getTilesOnHand().get(0).getPattern().toString() + " " + testGame.getPlayers()[i].getTilesOnHand().get(0).getColor().toString() + ";" + testGame.getPlayers()[i].getTilesOnHand().get(1).getPattern().toString() + " " + testGame.getPlayers()[i].getTilesOnHand().get(1).getColor().toString());
+                }
         System.out.println("Project Tiles:");
-        System.out.println(testGame.getPlayers()[0].getBoard().getField(4,2).getProjectTile()
-              //  .toString()
-                +" "+testGame.getPlayers()[0].getBoard().getField(2,3).getProjectTile()
-             //   .toString()
-                +" "+testGame.getPlayers()[0].getBoard().getField(3,4).getProjectTile()
-             //   .toString()
-                   );
+        for(int i =0;i<no;i++) {
+        System.out.println(testGame.getPlayers()[i].getBoard().getField(2,4).getProjectTile().getType()
+                .toString()
+                +" "+testGame.getPlayers()[i].getBoard().getField(3,2).getProjectTile().getType()
+                .toString()
+                +" "+testGame.getPlayers()[i].getBoard().getField(4,3).getProjectTile().getType()
+                .toString()
+                   );}
 
-        System.out.println(testGame.getPlayers()[1].getBoard().getField(4,2).getProjectTile()
-             //   .toString()
-                +" "+testGame.getPlayers()[1].getBoard().getField(2,3).getProjectTile()
-             //   .toString()
-                +" "+testGame.getPlayers()[1].getBoard().getField(3,4).getProjectTile()
-              //  .toString()
-        );
+
         testGame.saveToJSON("test.json");
-        testGame = new Game(2);
+        testGame = new Game(4);
         testGame.loadGameStateFromJSON("test.json");
         System.out.println("IsFirstTurn:");
         System.out.println(testGame.isFirstTurn());
@@ -92,13 +88,17 @@ public class GameJSONTest {
             System.out.println(element.getKey().toString() + " " + Arrays.toString(element.getValue().getPreferredPatterns()));      //Cat, Pattern,Pattern
         }
         System.out.println("HandTiles:");
-
-        System.out.println(testGame.getPlayers()[0].getTilesOnHand().get(0).getPattern().toString() + " " + testGame.getPlayers()[0].getTilesOnHand().get(0).getColor().toString() + ";" + testGame.getPlayers()[0].getTilesOnHand().get(1).getPattern().toString() + " " + testGame.getPlayers()[0].getTilesOnHand().get(1).getColor().toString());
-        System.out.println(testGame.getPlayers()[1].getTilesOnHand().get(0).getPattern().toString() + " " + testGame.getPlayers()[1].getTilesOnHand().get(0).getColor().toString() + ";" + testGame.getPlayers()[1].getTilesOnHand().get(1).getPattern().toString() + " " + testGame.getPlayers()[1].getTilesOnHand().get(1).getColor().toString());
-        System.out.println("Project Tiles:");
-        System.out.println(Arrays.toString(testGame.getPlayers()[0].getProjectTiles()));
-        System.out.println(Arrays.toString(testGame.getPlayers()[1].getProjectTiles()));
-
+        for(int i =0;i<no;i++) {
+            System.out.println(testGame.getPlayers()[i].getTilesOnHand().get(0).getPattern().toString() + " " + testGame.getPlayers()[i].getTilesOnHand().get(0).getColor().toString() + ";" + testGame.getPlayers()[i].getTilesOnHand().get(1).getPattern().toString() + " " + testGame.getPlayers()[i].getTilesOnHand().get(1).getColor().toString());
+        } System.out.println("Project Tiles:");
+        for(int i =0;i<no;i++) {
+            System.out.println(testGame.getPlayers()[i].getBoard().getField(2,4).getProjectTile().getType()
+                    .toString()
+                    +" "+testGame.getPlayers()[i].getBoard().getField(3,2).getProjectTile().getType()
+                    .toString()
+                    +" "+testGame.getPlayers()[i].getBoard().getField(4,3).getProjectTile().getType()
+                    .toString()
+            );}
 
     }
 
