@@ -44,6 +44,7 @@ public class GameController implements Initializable {
     @FXML
     private Button chosenButton;
     private gamepackage.Color chosenButtonColor;
+    private CatBoard chosenCat;
     boolean hasMoved = false, tookFromTable = false;
 
     //To keep track of the indexes taken from the table
@@ -264,6 +265,32 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Trigger that alerts the game that the player has chosen a cat tile
+     * @param event
+     */
+    @FXML
+    void catButtonTrigger(MouseEvent event) {
+        if ( event.getTarget() instanceof ImageView  && chosenCat == null) { // So you can't choose another one
+            System.out.println(event.getTarget());
+            int catIndex = Integer.parseInt(event.getTarget().toString().substring(16,17));
+            int it = 0;
+            Cat[] cats = new Cat[3];
+            for (Cat cat : game.getCatBoards().keySet()) {
+                cats[it] = cat;
+                it++;
+            }
+            //System.out.println(chosenCatImage.toString());
+            chosenCat = game.getCatBoards().get(cats[catIndex]);
+            System.out.println("Wybrany kot: " + chosenCat);
+            System.out.println("Z "+game.getCatBoards());
+            // Clearing other chosen tiles
+            chosenRegularTile = null;
+            chosenButton = null;
+            chosenButtonColor = null;
+        }
+    }
+
     @FXML
     void showPlayersBoard(Player player) {
         showButtons(player);
@@ -274,7 +301,7 @@ public class GameController implements Initializable {
         int childrenLength = hexboard.getChildren().size();
         for (int i = childrenLength - 1; i >= 0; i--) {
             if ( hexboard.getChildren().get(i) instanceof ImageView ) {
-                System.out.println("imageview swiruje");
+                System.out.println("imageview usuwa image");
                 hexboard.getChildren().remove(i);
             }
         }
@@ -293,8 +320,9 @@ public class GameController implements Initializable {
                         hexagon.setFill(Paint.valueOf("#ffcc8e"));
                     } else hexagon.setFill(Paint.valueOf("#d7c9b7"));
                 }
-                if (currentField.hasButton()) {
-                    System.out.println("is it the if??");
+                if (currentField.hasCatButton()) {
+                    addCatButton(hexagon, currentField.getCatButton().getCat());
+                } else if ( currentField.hasButton() ) {
                     addColorButton(hexagon, currentField.getRegularTile().getColor());
                 }
             }
@@ -480,12 +508,11 @@ public class GameController implements Initializable {
             }
         } else {
             Polygon chosenField = (Polygon) event.getTarget();
+            int[] coordinates = getCoordinates(chosenField);
             if (chosenRegularTile != null
                     && onHand.getChildren().size() == 2 && !hasMoved) {
                 int index = onHand.getChildren().indexOf(chosenRegularTile);
-                int[] coordinates = getCoordinates(chosenField);
                 if (game.getPlayers()[game.getCurrentPlayer()].putTile(index, coordinates[0], coordinates[1])) {
-                    System.out.println("Placing the tile");
                     putRegularTile(chosenRegularTile, chosenField);
                 }
                 hasMoved = true;
@@ -494,27 +521,33 @@ public class GameController implements Initializable {
                 chosenRegularTile = null;
             }
 
-            // Setting up the button
+            // Setting up the color button
             if (chosenButton != null) {
-                System.out.println("Choosing button");
-                int[] coordinates = getCoordinates(chosenField);
-
                 // Putting the button on the tile
                 if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
-                    System.out.println("Button chosen. Placing");
                     addColorButton(chosenField, chosenButtonColor);
                     // To prevent left-over value from disturbing the program
                     chosenButton = null;
                     chosenButtonColor = null;
                 }
+            }
 
+            // setting up the cat button
+            if (chosenCat != null) {
+                if ( game.getPlayers()[game.getCurrentPlayer()].putCatButton(chosenCat, coordinates[0], coordinates[1])) {
+                    addCatButton(chosenField, chosenCat.getCat());
+                    //TODO QUESTIONABLE FUNCTIONALITY TO BE CORRECTED
+                    chosenCat = null;
+                }
             }
         }
     }
     /**
      * Method for choosing a cat and placing it on the board
      */
+    void placeCat() {
 
+    }
     /**
      * Method for adding color buttons. Used when showing player's board and placing the buttons
      *
@@ -523,7 +556,6 @@ public class GameController implements Initializable {
     public void addColorButton(Polygon polygon, gamepackage.Color color) {
         StringBuilder imagePath = new StringBuilder();
         imagePath.append("/GUI/");
-        System.out.println("Before Switch");
         switch(color) {
             case GREEN -> imagePath.append("green/green");
             case YELLOW -> imagePath.append("yellow/yellow");
@@ -534,22 +566,42 @@ public class GameController implements Initializable {
         }
         imagePath.append(".png");
         URL url = getClass().getResource(imagePath.toString());
-        System.out.println("After Switch " + imagePath);
         Image buttonImage = new Image(url.toString());
 
         ImageView buttonImageView = new ImageView(buttonImage);
 
         buttonImageView.xProperty().bind(polygon.layoutXProperty().add(-90));
         buttonImageView.yProperty().bind(polygon.layoutYProperty().add(-50));
-
-        //buttonImageView.setFitWidth(50);
-        //buttonImageView.setFitHeight(50);
-
-
         // Adding the button to the AnchorPane
         hexboard.getChildren().add(buttonImageView);
     }
 
+    public void addCatButton(Polygon targetPolygon, Cat cat) {
+        StringBuilder imagePath = new StringBuilder();
+        imagePath.append("/GUI/cats/");
+        switch(cat) {
+            case MILLIE -> imagePath.append("Millie");
+            case TIBBIT -> imagePath.append("Tibbit");
+            case COCONUT -> imagePath.append("Coconut");
+            case CIRA -> imagePath.append("Cira");
+            case GWENIVERSE -> imagePath.append("Gwen");
+            case CALLIE -> imagePath.append("Callie");
+            case RUMI -> imagePath.append("Rumi");
+            case TECOLOTE -> imagePath.append("Tecolote");
+            case ALMOND -> imagePath.append("Almond");
+            case LEO -> imagePath.append("Leo");
+        }
+        imagePath.append("Button.png");
+        URL url = getClass().getResource(imagePath.toString());
+        Image buttonImage = new Image(url.toString());
+        ImageView buttonImageView = new ImageView(buttonImage);
+
+        buttonImageView.xProperty().bind(targetPolygon.layoutXProperty().add(-190));
+        buttonImageView.yProperty().bind(targetPolygon.layoutYProperty().add(-80));
+        buttonImageView.setScaleX(0.4);
+        buttonImageView.setScaleY(0.4);
+        hexboard.getChildren().add(buttonImageView);
+    }
     public int[] getCoordinates(Polygon p) {
         int[] result = new int[2];
         String polygon = p.toString();
@@ -582,18 +634,15 @@ public class GameController implements Initializable {
             StringBuilder message = new StringBuilder();
             message.append(game.getCurrentPlayer());
             message.append(";end");
-            System.out.println("endmessage");
-            System.out.println(table.getChildren());
             if (!isTableFull()) {
-                System.out.println("table not full");
-                //        game.updateState(putTileMessage.toString());
-                //        game.updateState(giveMessage.toString());
                 game.updateState(message.toString());
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
                 putTileMessage.setLength(0);
                 giveMessage.setLength(0);
                 chosenRegularTile = null;
                 hasMoved = false;
+
+                chosenCat = null;
             }
 
         }

@@ -69,7 +69,6 @@ public class Game implements Serializable {
         tilesOnTable = new ArrayList<>();
 
         currentPlayer = 0;
-        System.out.println(numberOfPlayers);
     }
 
     /**
@@ -104,9 +103,6 @@ public class Game implements Serializable {
             int right = Integer.parseInt(split[4]);
 
             if (players[currentPlayer].setProjectTiles(left, center, right)) {
-                //==========
-                System.out.println("projects set to: " + left + center + right);
-                //====================
                 players[currentPlayer].addTile(regularTilesLeft.pop());
                 players[currentPlayer].addTile(regularTilesLeft.pop());
                 currentPlayer++;
@@ -130,7 +126,6 @@ public class Game implements Serializable {
                         return;
                     }
                     if (players[currentPlayer].addTile(tilesOnTable.get(index))) {
-                        System.out.println("index is: " + index);
                         tilesOnTable.remove(index);
                         tilesOnTable.add(regularTilesLeft.pop());
                     }
@@ -490,12 +485,15 @@ public class Game implements Serializable {
         }
     }
     public static void main(String[] args) {
-        Game game = new Game(2);
-        game.updateState("0;project;0;1;2");
+        Game game = new Game(4);
+
+        //game.loadGameStateFromJSON("test.json");
+        /*game.updateState("0;project;0;1;2");
         game.updateState("1;project;0;1;2");
         game.updateState("0;put_tile;0;1;1");
         game.updateState("0;give;2");
-        game.updateState("0;end");
+        game.updateState("0;end");*/
+        //game.save("test.json");
 
     }
 }

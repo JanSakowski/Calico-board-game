@@ -51,7 +51,6 @@ public class Board implements Scored, Serializable {
      * @return if placing the tile was successful
      */
     public boolean putTile(Tile tile, int x, int y) {
-        System.out.println("Tile placed! " + x +":"+y);
         return fields[y][x].putTile(tile);
     }
 
@@ -98,8 +97,6 @@ public class Board implements Scored, Serializable {
             field.setColorGroup();
         colorsSet.put(c, true);
         allColors = colorsSet.values().stream().allMatch(b -> b);
-
-        System.out.println("Color button placed! "+ x +":"+y);
 
         return true;
     }
@@ -264,6 +261,8 @@ public class Board implements Scored, Serializable {
      * @return if placing the button was successful
      */
     public boolean putCatButton(CatButton button, int x, int y, TilePattern[] catsPreferred) {
+        //TODO NGOEANHPOEPHNEORNTO
+        System.out.println("Board.putCatButton");
         Field chosen = fields[y][x];
         if (!chosen.hasRegularTile() || chosen.hasButton() || chosen.isCatGroup())
             return false;

@@ -10,8 +10,7 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="735.0" prefWidth="1216.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
+<AnchorPane prefHeight="735.0" prefWidth="1216.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameController">
    <children>
         <GridPane fx:id="onHand" layoutX="284.0" layoutY="674.0" prefHeight="76.0" prefWidth="692.0">
             <columnConstraints>
@@ -169,7 +168,7 @@
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                         </GridPane>
-                        <ImageView fx:id="cat2" fitHeight="100.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <ImageView fx:id="cat2" fitHeight="100.0" fitWidth="220.0" onMouseClicked="#catButtonTrigger" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                     </children>
                 </GridPane>
                 <GridPane GridPane.rowIndex="1">
@@ -190,7 +189,7 @@
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                         </GridPane>
-                        <ImageView fx:id="cat1" fitHeight="100.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <ImageView fx:id="cat1" fitHeight="100.0" fitWidth="220.0" onMouseClicked="#catButtonTrigger" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                     </children>
                 </GridPane>
                 <GridPane>
@@ -211,7 +210,7 @@
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                         </GridPane>
-                        <ImageView fx:id="cat0" fitHeight="100.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <ImageView fx:id="cat0" fitHeight="100.0" fitWidth="220.0" onMouseClicked="#catButtonTrigger" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                     </children>
                 </GridPane>
             </children>
