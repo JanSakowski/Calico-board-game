@@ -43,6 +43,7 @@ public class GameController implements Initializable {
     private Polygon chosenProjectTile = null;
     private Polygon chosenRegularTile = null;
     private int spectatedPlayer = 0;
+    String[] names = {"a","b","c","d"};
     @FXML
     private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
     private int[] pickedProjectTiles;
@@ -160,9 +161,7 @@ public class GameController implements Initializable {
                     Polygon polygon = makeNewHexagon(1);
                     changeFill(polygon, getImagePath(player.getProjectTiles()[i]));
                     polygon.setOnMouseClicked(this::handTileOnClick);
-                    onHand.add(polygon, i, 0);
-                    onHand.setHalignment(polygon, HPos.CENTER);
-                    onHand.setValignment(polygon, VPos.CENTER);
+                    returnOnHand(polygon, i);
                 }
             } else {
                 onHand.getChildren().clear();
@@ -174,32 +173,24 @@ public class GameController implements Initializable {
                 Polygon polygon = makeNewHexagon(1);
                 changeFill(polygon, getImagePath(player.getTilesOnHand().get(0)));
                 polygon.setOnMouseClicked(this::handTileOnClick);
-                onHand.add(polygon, 1, 0);
-                onHand.setHalignment(polygon, HPos.CENTER);
-                onHand.setValignment(polygon, VPos.CENTER);
+                returnOnHand(polygon, 1);
                 if (player.getTilesOnHand().size() > 1) {
                     polygon = makeNewHexagon(1);
                     changeFill(polygon, getImagePath(player.getTilesOnHand().get(1)));
                     polygon.setOnMouseClicked(this::handTileOnClick);
-                    onHand.add(polygon, 2, 0);
+                    returnOnHand(polygon, 2);
                 }
-                onHand.setHalignment(polygon, HPos.CENTER);
-                onHand.setValignment(polygon, VPos.CENTER);
             } else {
                 Polygon polygon = makeNewHexagon(1);
                 polygon.setFill(Paint.valueOf("#d7c9b7"));
                 //polygon.setOnMouseClicked(this::regularTileOnClick);
-                onHand.add(polygon, 1, 0);
-                onHand.setHalignment(polygon, HPos.CENTER);
-                onHand.setValignment(polygon, VPos.CENTER);
+                returnOnHand(polygon, 1);
                 if (player.getTilesOnHand().size() > 1) {
                     polygon = makeNewHexagon(1);
                     polygon.setFill(Paint.valueOf("#d7c9b7"));
                     //polygon.setOnMouseClicked(this::regularTileOnClick);
-                    onHand.add(polygon, 2, 0);
+                    returnOnHand(polygon, 2);
                 }
-                onHand.setHalignment(polygon, HPos.CENTER);
-                onHand.setValignment(polygon, VPos.CENTER);
             }
         }
 
@@ -228,7 +219,7 @@ public class GameController implements Initializable {
     @FXML
     void getTileFromTable(Polygon polygon) {
         table.getChildren().remove(polygon);
-        if (onHand.getColumnIndex((Polygon) (onHand.getChildren().get(0))) == 2) {
+        if (onHand.getColumnIndex((Polygon) onHand.getChildren().get(0)) == 2) {
             onHand.add(polygon, 1, 0);
         } else onHand.add(polygon, 2, 0);
     }
@@ -247,6 +238,7 @@ public class GameController implements Initializable {
                 game.updateState(message.toString());
                 tookFromTable = true;
                 getTileFromTable((Polygon) event.getTarget());
+                actionInfo.setText("Put a button on your quilt or end turn");
             }
 
         }
@@ -300,11 +292,30 @@ public class GameController implements Initializable {
         }
     }
     int tours = 0;
+    private void setPlayerInfo(Player player){
+        StringBuilder label = new StringBuilder();
+        if (player == game.getPlayers()[game.getCurrentPlayer()]) {
+            label.append("Your board");
+        }
+        else {
+            label.append("You're spectating ");
+            label.append(names[spectatedPlayer]);
+            label.append("'s board");
+        }
+        playerInfo.setText(label.toString());
+    }
     @FXML
     void showPlayersBoard(Player player) {
         tours++;
+        if (game.isFirstTurn()){
+            actionInfo.setText("Put project tiles on your quilt");
+        }
+        else actionInfo.setText("Put a tile on your quilt");
+        if (hasMoved) actionInfo.setText("Choose a tile from the table");
+        if (hasMoved && tookFromTable) actionInfo.setText("Put a button on your quilt or end turn");
         showButtons(player);
         spectatedPlayer = Arrays.asList(game.getPlayers()).indexOf(player);
+        setPlayerInfo(player);
         showHand(player);
         showTable();
         //Deleting the existing ImageView-s with buttons
@@ -517,6 +528,7 @@ public class GameController implements Initializable {
             colorButtons.add(lblue, 1, 2);
             colorButtons.add(rainbow, 0, 3);
         }
+        else actionInfo.setText("");
     }
 
     @FXML
@@ -557,17 +569,20 @@ public class GameController implements Initializable {
                     }
                 }
                 if (chosenProjectTile != null) {
+                    //put a tile
                     if (pickedProjectTiles[pickedIndex] == -1) {
                         putProjectTile(chosenProjectTile, picked);
                         pickedProjectTiles[pickedIndex] = onHand.getColumnIndex(chosenProjectTile);
                         chosenProjectTile = null;
                     } else {
+                        //switch project tiles
                         int returnIndex = pickedProjectTiles[pickedIndex];
                         pickedProjectTiles[pickedIndex] = onHand.getColumnIndex(chosenProjectTile);
                         returnOnHand(switchProjectTiles(chosenProjectTile, picked),returnIndex);
                         chosenProjectTile = null;
                     }
                 } else {
+                    //pop project tile from table
                     if (pickedProjectTiles[pickedIndex] == -1) return;
                     Polygon polygon = makeNewHexagon(1);
                     polygon.setFill(picked.getFill());
@@ -576,8 +591,10 @@ public class GameController implements Initializable {
                     pickedProjectTiles[pickedIndex] = -1;
                     polygon.setOnMouseClicked(this::handTileOnClick);
                     chosenProjectTile = null;
+                    actionInfo.setText("Put project tiles on your quilt");
                 }
             }
+            if (!(pickedProjectTiles[0] == -1 || pickedProjectTiles[1] == -1 || pickedProjectTiles[2] == -1)) actionInfo.setText("End turn");
         } else {
             //regularTiles actions
             Polygon chosenField = (Polygon) event.getTarget();
@@ -589,6 +606,7 @@ public class GameController implements Initializable {
                     putRegularTile(chosenRegularTile, chosenField);
                 }
                 hasMoved = true;
+                actionInfo.setText("Choose a tile from the table");
                 System.out.println("chosenRegularTile");
                 // To prevent left-over value from disturbing the program
                 chosenRegularTile = null;
@@ -685,7 +703,7 @@ public class GameController implements Initializable {
     @FXML
     public void endingTurn(ActionEvent e) {
         if (game.isFirstTurn()) {
-            if (pickedProjectTiles[0] == 0 && pickedProjectTiles[1] == 0 && pickedProjectTiles[2] == 0)
+            if (pickedProjectTiles[0] == -1 || pickedProjectTiles[1] == -1 || pickedProjectTiles[2] == -1)
                 return;
             StringBuilder message = new StringBuilder();
             message.append(game.getCurrentPlayer());
@@ -706,11 +724,12 @@ public class GameController implements Initializable {
             message.append(";end");
             if (!isTableFull()) {
                 game.updateState(message.toString());
+                hasMoved = false;
+                tookFromTable = false;
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
                 putTileMessage.setLength(0);
                 giveMessage.setLength(0);
                 chosenRegularTile = null;
-                hasMoved = false;
 
                 chosenCat = null;
             }

@@ -14,3 +14,19 @@
     -fx-background-image: url("tło.png");
     -fx-background-size: 100% 100%;
 }
+.player-label {
+    -fx-text-fill: black;
+    -fx-font-size: 32px;
+    -fx-effect: dropshadow(gaussian, white, 0.07, 0, 2, 2),
+    dropshadow(gaussian, white, 0, 0.07, 2, 2),
+    dropshadow(gaussian, white, -0.07, 0, 2, 2),
+    dropshadow(gaussian, white, 0, -0.07, 2, 2);
+}
+.action-label {
+    -fx-text-fill: black;
+    -fx-font-size: 24px;
+    -fx-effect: dropshadow(gaussian, white, 0.07, 0, 2, 2),
+    dropshadow(gaussian, white, 0, 0.07, 2, 2),
+    dropshadow(gaussian, white, -0.07, 0, 2, 2),
+    dropshadow(gaussian, white, 0, -0.07, 2, 2);
+}
