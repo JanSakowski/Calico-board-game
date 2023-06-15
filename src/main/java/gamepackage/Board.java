@@ -545,7 +545,6 @@ public class Board implements Scored, Serializable {
         result += fields[3][4].getProjectTile().getScore();
         return result;
     }
-
     /**
      * Following methods only used for loading game save from JSON file
      *

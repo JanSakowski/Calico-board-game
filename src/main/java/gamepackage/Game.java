@@ -184,7 +184,7 @@ public class Game implements Serializable {
      */
     public void save(String path) {
         try (FileOutputStream fileOut = new FileOutputStream(path);
-             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
+                ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
             objectOut.writeObject(this);
             System.out.println("Zapisano");
         } catch (IOException e) {
@@ -193,7 +193,23 @@ public class Game implements Serializable {
         }
     }
 
-
+    /**
+     * Loads a game from file
+     *
+     * @param path path of the file
+     * @return loaded game
+     */
+    public static Game loadState(String path) {
+        try (FileInputStream fileIn = new FileInputStream(path);
+                ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
+            Object object = objectIn.readObject();
+            return (Game) object;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Wystąpił błąd podczas ładowania");
+            e.printStackTrace();
+            return null;
+        }
+    }
     public void saveToJSON(String filePath) {
         /*
         Keywords used in JSON file, their explanation and format (all in Strings):
@@ -334,25 +350,6 @@ public class Game implements Serializable {
             }
         }
     }
-
-    /**
-     * Loads a game from file
-     *
-     * @param path path of the file
-     * @return loaded game
-     */
-    public static Game loadState(String path) {
-        try (FileInputStream fileIn = new FileInputStream(path);
-             ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
-            Object object = objectIn.readObject();
-            return (Game) object;
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Wystąpił błąd podczas ładowania");
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public void loadGameStateFromJSON(String path) {
         StringBuilder jsonBuilder = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -492,8 +489,6 @@ public class Game implements Serializable {
             players[i].setProjectTiles(0,1,2);
         }
     }
-
-
     public static void main(String[] args) {
         Game game = new Game(2);
         game.updateState("0;project;0;1;2");
@@ -501,5 +496,6 @@ public class Game implements Serializable {
         game.updateState("0;put_tile;0;1;1");
         game.updateState("0;give;2");
         game.updateState("0;end");
+
     }
 }
