@@ -34,8 +34,16 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+/**
+ * GameController class is responsible for all the GUI logic within the game scene;
+ * Controller class for game.fxml file
+ */
 public class GameController implements Initializable {
+    /**
+     * Game instance with the current game content
+     */
     private Game game;
+
     @FXML
     private Label playerInfo, actionInfo;
     @FXML
@@ -46,21 +54,37 @@ public class GameController implements Initializable {
     private GridPane onHand, cat0Patterns, cat1Patterns, cat2Patterns, table, colorButtons;
     @FXML
     private Polygon hex2_4, hex3_2, hex4_3;
+    @FXML
+    private Button chosenButton;
+    @FXML
+    private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
     private Polygon chosenProjectTile = null;
     private Polygon chosenRegularTile = null;
     private int spectatedPlayer = 0;
+    /**
+     * The Names of currently playing players.
+     */
     String[] names = {"a", "b", "c", "d"};
-    @FXML
-    private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
+
     private int[] pickedProjectTiles;
-    @FXML
-    private Button chosenButton;
+
     private gamepackage.Color chosenButtonColor;
     private CatBoard chosenCat;
-    boolean hasMoved = false, tookFromTable = false;
+    /**
+     * The boolean indicating whether the player put tile on the quile
+     */
+    boolean hasMoved = false,
+    /**
+     * The boolean indicating whether the player took tile from the table
+     */
+    tookFromTable = false;
 
-    //To keep track of the indexes taken from the table
-
+    /**
+     * Returns the hexagon from gameboard, that has given coordinates
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return wanted hexagon from gameboard
+     */
     private Polygon getHexagon(int x, int y) {
         for (Node node : hexboard.getChildren()) {
             if (node instanceof Polygon) {
@@ -72,7 +96,12 @@ public class GameController implements Initializable {
         return null;
     }
 
-    //smaller for one, normal otherwise
+    /**
+     * Makes and returns new hexagon Polygon;
+     * big hexagon for 1 size option, smaller otherwise
+     * @param size the size of wanted hexagon
+     * @return created hexagon
+     */
     private Polygon makeNewHexagon(int size) {
         Polygon hexagon;
         if (size == 1) {
@@ -101,6 +130,11 @@ public class GameController implements Initializable {
         return hexagon;
     }
 
+    /**
+     * Returns path for background image for given tile
+     * @param tile given tile
+     * @return image path for given tile
+     */
     private String getImagePath(Tile tile) {
         if (tile instanceof ProjectTile)
             return getProjectImagePath((ProjectTile) tile);
@@ -108,6 +142,11 @@ public class GameController implements Initializable {
             return getRegularImagePath((RegularTile) tile);
     }
 
+    /**
+     * Returns path for background image for given project tile
+     * @param pTile given project tile
+     * @return image path for given project tile
+     */
     private String getProjectImagePath(ProjectTile pTile) {
         StringBuilder url = new StringBuilder();
         url.append("/GUI");
@@ -122,6 +161,11 @@ public class GameController implements Initializable {
         return url.toString();
     }
 
+    /**
+     * Returns path for background image for given regular tile
+     * @param rTile given regular tile
+     * @return image path for given regular tile
+     */
     private String getRegularImagePath(RegularTile rTile) {
         StringBuilder url = new StringBuilder();
         url.append("/GUI");
@@ -144,6 +188,9 @@ public class GameController implements Initializable {
         return url.toString();
     }
 
+    /**
+     * Shows tiles, that are currently on the table
+     */
     @FXML
     private void showTable() {
         if (!game.isFirstTurn()) {
@@ -159,8 +206,13 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Shows tiles that are currently on player's hand
+     * @param player player that hand is being shown for
+     */
     @FXML
     private void showHand(Player player) {
+        //project tiles
         if (game.isFirstTurn()) {
             if (player == game.getPlayers()[game.getCurrentPlayer()]) {
                 for (int i = 0; i < 4; i++) {
@@ -174,6 +226,7 @@ public class GameController implements Initializable {
             }
 
         } else {
+            //tiles of current player
             onHand.getChildren().clear();
             if (player == game.getPlayers()[game.getCurrentPlayer()]) {
                 Polygon polygon = makeNewHexagon(1);
@@ -187,6 +240,7 @@ public class GameController implements Initializable {
                     returnOnHand(polygon, 2);
                 }
             } else {
+                //tiles spectated player
                 Polygon polygon = makeNewHexagon(1);
                 polygon.setFill(Paint.valueOf("#d7c9b7"));
                 //polygon.setOnMouseClicked(this::regularTileOnClick);
@@ -202,6 +256,9 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * Saves the game
+     */
     @FXML
     void save() {
         String path;
@@ -215,6 +272,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Used for making the project tile performing action on click
+     *
+     * @param event click event
+     */
     @FXML
     void projectTileOnClick(MouseEvent event) {
         if (event.getTarget() instanceof Polygon) {
@@ -222,6 +284,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Used for making the tile on hand performing action on click
+     *
+     * @param event click event
+     */
     @FXML
     void handTileOnClick(MouseEvent event) {
         System.out.println("handTileOnClick");
@@ -238,15 +305,11 @@ public class GameController implements Initializable {
             }
         }
     }
-
-    @FXML
-    void getTileFromTable(Polygon polygon) {
-        table.getChildren().remove(polygon);
-        if (onHand.getColumnIndex((Polygon) onHand.getChildren().get(0)) == 2) {
-            onHand.add(polygon, 1, 0);
-        } else onHand.add(polygon, 2, 0);
-    }
-
+    /**
+     * Used for making the tile on the table performing action on click
+     *
+     * @param event click event
+     */
     @FXML
     void tableTileOnClick(MouseEvent event) {
         Player player = game.getPlayers()[game.getCurrentPlayer()];
@@ -267,7 +330,27 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Gets chosen by player tile from the table
+     *
+     * @param polygon chosen polygon from the table
+     */
+    @FXML
+    void getTileFromTable(Polygon polygon) {
+        table.getChildren().remove(polygon);
+        if (onHand.getColumnIndex((Polygon) onHand.getChildren().get(0)) == 2) {
+            onHand.add(polygon, 1, 0);
+        } else onHand.add(polygon, 2, 0);
+    }
 
+
+
+
+    /**
+     * TODO
+     *
+     * @param event the event
+     */
     @FXML
     void colorButtonTrigger(MouseEvent event) {
         if (event.getTarget() instanceof Button && tookFromTable == true) {
@@ -288,9 +371,9 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Trigger that alerts the game that the player has chosen a cat tile
+     * TODO
      *
-     * @param event
+     * @param event the event
      */
     @FXML
     void catButtonTrigger(MouseEvent event) {
@@ -314,6 +397,17 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * TODO
+     * The Tours.
+     */
+    int tours = 0;
+
+    /**
+     * Sets the label content, responsible for displaying info about player
+     * @param player currently shown player
+     */
+
     private void setPlayerInfo(Player player) {
         StringBuilder label = new StringBuilder();
         if (player == game.getPlayers()[game.getCurrentPlayer()]) {
@@ -326,6 +420,11 @@ public class GameController implements Initializable {
         playerInfo.setText(label.toString());
     }
 
+    /**
+     * Shows given player's board
+     *
+     * @param player given player
+     */
     @FXML
     void showPlayersBoard(Player player) {
         if (game.isFirstTurn()) {
@@ -373,6 +472,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Ends the game and displays GameEnd scene
+     */
     public void gameEnd() {
         int[] scores = new int[game.getPlayers().length];
         for (int i = 0; i < game.getPlayers().length; i++) {
@@ -405,12 +507,24 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Changes fill of given hexagon to image with given path
+     * @param hexagon given hexagon
+     * @param path given image path
+     */
     private void changeFill(Polygon hexagon, String path) {
         URL url = getClass().getResource(path);
         Image img = new Image(url.toString());
         hexagon.setFill(new ImagePattern(img));
     }
 
+    /**
+     * Returns pattern tile path for given cat and given number;
+     * every cat has two pattern tiles so whichTile is either 1 or 2
+     * @param whichCat given cat
+     * @param whichTile given number
+     * @return image path depending on given variables
+     */
     private String getCatsTilesPath(int whichCat, int whichTile) {
         int i = 0;
         StringBuilder path = new StringBuilder();
@@ -432,6 +546,11 @@ public class GameController implements Initializable {
         return path.toString();
     }
 
+    /**
+     * Returns image path for given cat
+     * @param cat given cat
+     * @return image path for that cat
+     */
     private String getCatPath(Cat cat) {
         StringBuilder path = new StringBuilder();
         path.append("/GUI/cats/");
@@ -450,11 +569,24 @@ public class GameController implements Initializable {
         return path.toString();
     }
 
+    /**
+     * Puts project tile on the table;
+     * used when clicked place for project tile is empty
+     * @param projectTile project tile to put on the table
+     * @param projectTileDestination place for project tile
+     */
     private void putProjectTile(Polygon projectTile, Polygon projectTileDestination) {
         projectTileDestination.setFill(projectTile.getFill());
         onHand.getChildren().remove(projectTile);
     }
 
+    /**
+     * Switches two project tiles;
+     * used when place for project tile isn't empty and player has picked another project tile to put
+     * @param projectTile project tile to put on the table
+     * @param projectTileDestination place for project tile
+     * @return project tile that is being switched
+     */
     private Polygon switchProjectTiles(Polygon projectTile, Polygon projectTileDestination) {
         Polygon polygon = makeNewHexagon(1);
         polygon.setFill(projectTileDestination.getFill());
@@ -463,6 +595,11 @@ public class GameController implements Initializable {
         return polygon;
     }
 
+    /**
+     * puts regular tile on the board
+     * @param regularTile tile to put on the board
+     * @param regularTileDestination place to put tile on
+     */
     private void putRegularTile(Polygon regularTile, Polygon regularTileDestination) {
         if (regularTileDestination.getFill().getClass() != ImagePattern.class) {
             regularTileDestination.setFill(regularTile.getFill());
@@ -472,7 +609,9 @@ public class GameController implements Initializable {
         }
     }
 
-
+    /**
+     * Displays cats and cats' pattern tiles
+     */
     @FXML
     private void showCats() {
         //cats
@@ -520,6 +659,11 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Makes FX button look like colour button
+     * @param button FX button
+     * @param path image path to wanted background image
+     */
     private void setButtonsBackground(Button button, String path) {
         URL url = getClass().getResource(path);
         Image img = new Image(url.toString());
@@ -534,6 +678,9 @@ public class GameController implements Initializable {
         button.setBackground(background);
     }
 
+    /**
+     * Initializes buttons' appearance
+     */
     @FXML
     private void initializeButtons() {
         colorButtons.setAlignment(Pos.CENTER);
@@ -546,6 +693,10 @@ public class GameController implements Initializable {
         setButtonsBackground(rainbow, "/GUI/rainbow.png");
     }
 
+    /**
+     * Shows buttons, if given player is currentPlayer
+     * @param player given player
+     */
     @FXML
     private void showButtons(Player player) {
         colorButtons.getChildren().clear();
@@ -561,20 +712,32 @@ public class GameController implements Initializable {
         } else actionInfo.setText("");
     }
 
+    /**
+     * Checks whether the table is full
+     * @return true, if table is full, false otherwise
+     */
     @FXML
     private boolean isTableFull() {
         return table.getChildren().size() >= 3;
     }
 
-    StringBuilder putTileMessage = new StringBuilder();
-    StringBuilder giveMessage = new StringBuilder();
 
+    /**
+     * Used for returning put project tile back on hand
+     * @param polygon project tile
+     * @param column place on hand, it should be in
+     */
     private void returnOnHand(Polygon polygon, int column) {
         onHand.add(polygon, column, 0);
         onHand.setHalignment(polygon, HPos.CENTER);
         onHand.setValignment(polygon, VPos.CENTER);
     }
 
+    /**
+     * Makes tiles on the board responsive to clicking
+     *
+     * @param event click event
+     */
     @FXML
     void clickDetected(MouseEvent event) {
         System.out.println("clickDetected");
@@ -687,7 +850,8 @@ public class GameController implements Initializable {
     /**
      * Method for adding color buttons. Used when showing player's board and placing the buttons
      *
-     * @param polygon
+     * @param polygon the polygon
+     * @param color   the color
      */
     public void addColorButton(Polygon polygon, gamepackage.Color color) {
         StringBuilder imagePath = new StringBuilder();
@@ -713,6 +877,12 @@ public class GameController implements Initializable {
         hexboard.getChildren().add(buttonImageView);
     }
 
+    /**
+     * Adds cat button on given polygon
+     *
+     * @param targetPolygon the target polygon
+     * @param cat           the cat
+     */
     public void addCatButton(Polygon targetPolygon, Cat cat) {
         StringBuilder imagePath = new StringBuilder();
         imagePath.append("/GUI/cats/");
@@ -741,6 +911,12 @@ public class GameController implements Initializable {
         hexboard.getChildren().add(buttonImageView);
     }
 
+    /**
+     * Gets coordinates of given polygon
+     *
+     * @param p given polygon
+     * @return int array with coordinates
+     */
     public int[] getCoordinates(Polygon p) {
         int[] result = new int[2];
         String polygon = p.toString();
@@ -751,6 +927,11 @@ public class GameController implements Initializable {
     }
 
 
+    /**
+     * Makes endTurn button responsive to click
+     *
+     * @param e the click event
+     */
     @FXML
     public void endingTurn(ActionEvent e) {
         if (game.isFirstTurn()) {
@@ -779,8 +960,7 @@ public class GameController implements Initializable {
                 hasMoved = false;
                 tookFromTable = false;
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
-                putTileMessage.setLength(0);
-                giveMessage.setLength(0);
+
                 chosenRegularTile = null;
 
                 chosenCat = null;
@@ -790,6 +970,9 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * Show board of the player "on the left"
+     */
     @FXML
     private void changePlayerLeft() {
         if (!game.isFirstTurn()) {
@@ -797,7 +980,9 @@ public class GameController implements Initializable {
             showPlayersBoard(game.getPlayers()[spectatedPlayer]);
         }
     }
-
+    /**
+     * Show board of the player "on the right"
+     */
     @FXML
     private void changePlayerRight() {
         if (!game.isFirstTurn()) {
@@ -806,6 +991,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Goes back to current player's board
+     */
     @FXML
     private void showCurrentPlayerBoard() {
         if (!game.isFirstTurn()) {
