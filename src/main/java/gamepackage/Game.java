@@ -376,8 +376,10 @@ public class Game implements Serializable {
         tilesOnTable.clear();
         catBoards.clear();
         regularTilesLeft.clear();
+
         RegularTile[][] onHandTiles = new RegularTile[4][3];
         Board[] playerBoards = new Board[4];
+
         for (int i = 0; i < 4; i++) {
             playerBoards[i] = Board.getRandom(new Random());
         }

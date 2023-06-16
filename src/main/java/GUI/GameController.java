@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.SortedMap;
 
 /**
  * GameController class is responsible for all the GUI logic within the game scene;
@@ -70,6 +71,8 @@ public class GameController implements Initializable {
 
     private gamepackage.Color chosenButtonColor;
     private CatBoard chosenCat;
+     // Storing the location of rainbow buttons - has to by this way due to a inherent Game class characteristics
+    private Polygon[] rainbowButtons;
     /**
      * The boolean indicating whether the player put tile on the quile
      */
@@ -193,15 +196,17 @@ public class GameController implements Initializable {
      */
     @FXML
     private void showTable() {
-        if (!game.isFirstTurn()) {
-            table.getChildren().clear();
-            for (int i = 0; i < 3; i++) {
-                Polygon polygon = makeNewHexagon(1);
-                changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
-                polygon.setOnMouseClicked(this::tableTileOnClick);
-                table.add(polygon, 0, i);
-                table.setHalignment(polygon, HPos.CENTER);
-                table.setValignment(polygon, VPos.CENTER);
+        if (!tookFromTable){
+            if (!game.isFirstTurn()) {
+                table.getChildren().clear();
+                for (int i = 0; i < 3; i++) {
+                    Polygon polygon = makeNewHexagon(1);
+                    changeFill(polygon, getImagePath(game.getTilesOnTable().get(i)));
+                    polygon.setOnMouseClicked(this::tableTileOnClick);
+                    table.add(polygon, 0, i);
+                    table.setHalignment(polygon, HPos.CENTER);
+                    table.setValignment(polygon, VPos.CENTER);
+                }
             }
         }
     }
@@ -261,7 +266,7 @@ public class GameController implements Initializable {
      */
     @FXML
     void save() {
-        String path;
+        /*String path;
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -281,7 +286,7 @@ public class GameController implements Initializable {
         Scene scene = new Scene (root);
         stage.setScene(scene);
         stage.setResizable(true);
-        stage.show();
+        stage.show();*/
     }
 
     /**
@@ -357,7 +362,7 @@ public class GameController implements Initializable {
 
 
     /**
-     * TODO
+     * When activated, sets the current chosen color to one from gamepackage.Color, based on the button clicked
      *
      * @param event the event
      */
@@ -376,12 +381,13 @@ public class GameController implements Initializable {
                 case "green" -> chosenButtonColor = gamepackage.Color.GREEN;
                 case "purple" -> chosenButtonColor = gamepackage.Color.PURPLE;
                 case "pink" -> chosenButtonColor = gamepackage.Color.MAGENTA;
+                case "rainbow" -> chosenButtonColor = gamepackage.Color.RAINBOW;
             }
         }
     }
 
     /**
-     * TODO
+     * When activated, sets the current chosen cat as waiting to be placed
      *
      * @param event the event
      */
@@ -464,8 +470,10 @@ public class GameController implements Initializable {
                 }
                 if (currentField.hasCatButton()) {
                     addCatButton(hexagon, currentField.getCatButton().getCat());
-                } else if (currentField.hasButton()) {
-                    addColorButton(hexagon, currentField.getRegularTile().getColor());
+                } else if (currentField.hasColorButton() && currentField.getColorButton().getColor() != gamepackage.Color.RAINBOW) {
+                    addColorButton(hexagon, currentField.getColorButton().getColor());
+                } else if (rainbowButtons[game.getCurrentPlayer()] == hexagon) {
+                    addRainbowButton(hexagon);
                 }
             }
         }
@@ -699,7 +707,6 @@ public class GameController implements Initializable {
     @FXML
     private void showButtons(Player player) {
         colorButtons.getChildren().clear();
-        ;
         if (player == game.getPlayers()[game.getCurrentPlayer()]) {
             colorButtons.add(yellow, 0, 0);
             colorButtons.add(pink, 0, 1);
@@ -804,33 +811,44 @@ public class GameController implements Initializable {
                 chosenRegularTile = null;
             }
 
-            // When a button is chosen and the designated field contains a tile
-            if (chosenButton != null && game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor() != null) {
-                // When the chosen color matches the color of field's tile
-                if (chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
-                    if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
-                        addColorButton(chosenField, chosenButtonColor);
-                        // To prevent left-over value from disturbing the program
+            if (game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).hasTile()){
+                if (chosenButtonColor == gamepackage.Color.RAINBOW) {
+                    if (game.getPlayers()[game.getCurrentPlayer()].getBoard().putRainbowButton(coordinates[0], coordinates[1])) {
+                        rainbowButtons[game.getCurrentPlayer()] = chosenField;
+                        addRainbowButton(chosenField);
                         chosenButton = null;
                         chosenButtonColor = null;
                     }
+                }
+
+                // When a button is chosen and the designated field contains a tile
+                if (chosenButton != null && game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor() != null) {
+                    // When the chosen color matches the color of field's tile
+                    if (chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
+                        if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
+                            addColorButton(chosenField, chosenButtonColor);
+                            // To prevent left-over value from disturbing the program
+                            chosenButton = null;
+                            chosenButtonColor = null;
+                        }
+                    } else {
+                        System.out.println("Wrong color");
+                        chosenButtonColor = null;
+                        chosenButton = null;
+                    }
                 } else {
-                    System.out.println("Wrong color");
                     chosenButtonColor = null;
                     chosenButton = null;
                 }
-            } else {
-                chosenButtonColor = null;
-                chosenButton = null;
-            }
 
-            // setting up the cat button
-            if (chosenCat != null) {
-                if (game.getPlayers()[game.getCurrentPlayer()].putCatButton(chosenCat, coordinates[0], coordinates[1])) {
-                    addCatButton(chosenField, chosenCat.getCat());
-                    chosenCat = null;
-                } else {
-                    chosenCat = null;
+                // setting up the cat button
+                if (chosenCat != null) {
+                    if (game.getPlayers()[game.getCurrentPlayer()].putCatButton(chosenCat, coordinates[0], coordinates[1])) {
+                        addCatButton(chosenField, chosenCat.getCat());
+                        chosenCat = null;
+                    } else {
+                        chosenCat = null;
+                    }
                 }
             }
         }
@@ -843,22 +861,35 @@ public class GameController implements Initializable {
      * @param color   the color
      */
     public void addColorButton(Polygon polygon, gamepackage.Color color) {
-        StringBuilder imagePath = new StringBuilder();
-        imagePath.append("/GUI/");
-        switch (color) {
-            case GREEN -> imagePath.append("green/green");
-            case YELLOW -> imagePath.append("yellow/yellow");
-            case PURPLE -> imagePath.append("purple/purple");
-            case MAGENTA -> imagePath.append("pink/pink");
-            case LIGHT_BLUE -> imagePath.append("lightblue/lightblue");
-            case DARK_BLUE -> imagePath.append("darkblue/darkblue");
+        if (rainbowButtons[game.getCurrentPlayer()] != polygon){
+            StringBuilder imagePath = new StringBuilder();
+            imagePath.append("/GUI/");
+            switch (color) {
+                case GREEN -> imagePath.append("green/green");
+                case YELLOW -> imagePath.append("yellow/yellow");
+                case PURPLE -> imagePath.append("purple/purple");
+                case MAGENTA -> imagePath.append("pink/pink");
+                case LIGHT_BLUE -> imagePath.append("lightblue/lightblue");
+                case DARK_BLUE -> imagePath.append("darkblue/darkblue");
+            }
+            imagePath.append(".png");
+            URL url = getClass().getResource(imagePath.toString());
+            Image buttonImage = new Image(url.toString());
+
+            ImageView buttonImageView = new ImageView(buttonImage);
+
+            buttonImageView.xProperty().bind(polygon.layoutXProperty().add(-90));
+            buttonImageView.yProperty().bind(polygon.layoutYProperty().add(-50));
+            chosenButton = null;
+            // Adding the button to the AnchorPane
+            hexboard.getChildren().add(buttonImageView);
         }
-        imagePath.append(".png");
-        URL url = getClass().getResource(imagePath.toString());
+    }
+
+    public void addRainbowButton(Polygon polygon) {
+        URL url = getClass().getResource("/GUI/rainbow.png");
         Image buttonImage = new Image(url.toString());
-
         ImageView buttonImageView = new ImageView(buttonImage);
-
         buttonImageView.xProperty().bind(polygon.layoutXProperty().add(-90));
         buttonImageView.yProperty().bind(polygon.layoutYProperty().add(-50));
         chosenButton = null;
@@ -923,40 +954,41 @@ public class GameController implements Initializable {
      */
     @FXML
     public void endingTurn(ActionEvent e) {
-        if (game.isFirstTurn()) {
-            if (pickedProjectTiles[0] == -1 || pickedProjectTiles[1] == -1 || pickedProjectTiles[2] == -1)
-                return;
-            StringBuilder message = new StringBuilder();
-            message.append(game.getCurrentPlayer());
-            message.append(";project;");
-            message.append(pickedProjectTiles[0]);
-            message.append(";");
-            message.append(pickedProjectTiles[1]);
-            message.append(";");
-            message.append(pickedProjectTiles[2]);
-            game.updateState(message.toString());
-            pickedProjectTiles = new int[3];
-            for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
-            onHand.getChildren().clear();
-            showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
-        } else {
-            tookFromTable = false;
-            StringBuilder message = new StringBuilder();
-            message.append(game.getCurrentPlayer());
-            message.append(";end");
-            if (!isTableFull()) {
+        if (spectatedPlayer == game.getCurrentPlayer()){
+            if (game.isFirstTurn()) {
+                if (pickedProjectTiles[0] == -1 || pickedProjectTiles[1] == -1 || pickedProjectTiles[2] == -1)
+                    return;
+                StringBuilder message = new StringBuilder();
+                message.append(game.getCurrentPlayer());
+                message.append(";project;");
+                message.append(pickedProjectTiles[0]);
+                message.append(";");
+                message.append(pickedProjectTiles[1]);
+                message.append(";");
+                message.append(pickedProjectTiles[2]);
                 game.updateState(message.toString());
-                hasMoved = false;
-                tookFromTable = false;
+                pickedProjectTiles = new int[3];
+                for (int i = 0; i < 3; i++) pickedProjectTiles[i] = -1;
+                onHand.getChildren().clear();
                 showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
+            } else {
+                tookFromTable = false;
+                StringBuilder message = new StringBuilder();
+                message.append(game.getCurrentPlayer());
+                message.append(";end");
+                if (!isTableFull()) {
+                    game.updateState(message.toString());
+                    hasMoved = false;
+                    tookFromTable = false;
+                    showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
 
-                chosenRegularTile = null;
+                    chosenRegularTile = null;
 
-                chosenCat = null;
+                    chosenCat = null;
+                }
+
             }
-
         }
-
     }
 
     /**
@@ -1002,6 +1034,7 @@ public class GameController implements Initializable {
         //game = new Game(data.getNumberOfPlayers());
         showCats();
         initializeButtons();
+        rainbowButtons = new Polygon[game.getPlayers().length];
         showPlayersBoard(game.getPlayers()[game.getCurrentPlayer()]);
         pickedProjectTiles = new int[3];
         spectatedPlayer = game.getCurrentPlayer();

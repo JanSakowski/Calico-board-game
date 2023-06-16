@@ -56,6 +56,6 @@
             <Image url="@cats/coconutButton.png" />
          </image>
       </ImageView>
-      <Label layoutX="387.0" layoutY="335.0" prefHeight="62.0" prefWidth="206.0" text="Click onCoconut to go back to lobby" textFill="#90ff70" />
+      <Label layoutX="387.0" layoutY="335.0" prefHeight="62.0" prefWidth="206.0" text="Click on Coconut to go back to lobby" textFill="#90ff70" />
    </children>
 </AnchorPane>
