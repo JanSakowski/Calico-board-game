@@ -19,9 +19,17 @@
             <Font name="Candara Light" size="64.0" />
          </font>
       </Label>
-      <Button fx:id="number1" layoutX="42.0" layoutY="329.0" mnemonicParsing="false" onMousePressed="#button1" prefHeight="47.0" prefWidth="97.0" text="Button" />
-      <Button fx:id="number2" layoutX="179.0" layoutY="329.0" mnemonicParsing="false" onMousePressed="#button2" prefHeight="47.0" prefWidth="97.0" text="Button" />
-      <Button fx:id="number3" layoutX="330.0" layoutY="329.0" mnemonicParsing="false" onMousePressed="#button3" prefHeight="47.0" prefWidth="97.0" text="Button" />
-      <Button fx:id="number4" layoutX="462.0" layoutY="329.0" mnemonicParsing="false" onMousePressed="#button4" prefHeight="47.0" prefWidth="97.0" text="Button" />
+      <Button fx:id="number1" layoutX="81.0" layoutY="300.0" mnemonicParsing="false" onMousePressed="#button1" prefHeight="47.0" prefWidth="97.0" text="New Game">
+         <font>
+            <Font name="Berlin Sans FB" size="14.0" />
+         </font></Button>
+      <Button fx:id="number2" layoutX="252.0" layoutY="300.0" mnemonicParsing="false" onMousePressed="#button2" prefHeight="47.0" prefWidth="97.0" text="Load Game">
+         <font>
+            <Font name="Berlin Sans FB" size="14.0" />
+         </font></Button>
+      <Button fx:id="number3" layoutX="424.0" layoutY="300.0" mnemonicParsing="false" onMousePressed="#button3" prefHeight="47.0" prefWidth="97.0" text="Exit">
+         <font>
+            <Font name="Berlin Sans FB" size="14.0" />
+         </font></Button>
    </children>
 </AnchorPane>
