@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+/**
+ * A controller for the lobby window. You can set the number of players and their names.
+ */
 public class LobbyController implements Initializable {
     @FXML
     private Label p1, p2, p3, p4;

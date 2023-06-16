@@ -46,7 +46,6 @@ public class CalicoApplication extends Application {
         URL url = getClass().getResource("/GUI/cats/CiraButton.png");
         Image icon = new Image(url.toString());
         stage.getIcons().add(icon);
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene (root);
         stage.setScene(scene);

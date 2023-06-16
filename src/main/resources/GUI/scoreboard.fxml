@@ -20,35 +20,42 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="player1" prefHeight="74.0" prefWidth="368.0" textFill="#62b0c1">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Narrow" size="36.0" />
                </font></Label>
             <Label fx:id="player2" prefHeight="74.0" prefWidth="353.0" textFill="#62b0c1" GridPane.rowIndex="1">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Narrow" size="36.0" />
                </font></Label>
             <Label fx:id="player3" prefHeight="74.0" prefWidth="416.0" textFill="#62b0c1" GridPane.rowIndex="2">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Narrow" size="36.0" />
                </font></Label>
             <Label fx:id="player4" prefHeight="74.0" prefWidth="403.0" textFill="#62b0c1" GridPane.rowIndex="3">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Arial Narrow" size="36.0" />
                </font></Label>
+            <Label prefHeight="51.0" prefWidth="309.0" text="Thanks for playing!" textFill="#62b0c1" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Arial Narrow" size="36.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <Label layoutX="14.0" prefHeight="78.0" prefWidth="186.0" text="Scores:" textFill="#1106b9">
          <font>
-            <Font size="48.0" />
+            <Font name="Arial Narrow" size="48.0" />
          </font>
       </Label>
-      <ImageView fx:id="gwenimage" fitHeight="177.0" fitWidth="260.0" layoutX="362.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="gwenimage" fitHeight="177.0" fitWidth="260.0" layoutX="349.0" layoutY="236.0" onMouseClicked="#goBackToLobby" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@cats/coconutButton.png" />
          </image>
       </ImageView>
+      <Label layoutX="387.0" layoutY="335.0" prefHeight="62.0" prefWidth="206.0" text="Click onCoconut to go back to lobby" textFill="#90ff70" />
    </children>
 </AnchorPane>

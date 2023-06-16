@@ -106,10 +106,6 @@ public class Field implements Serializable {
      * Gets regular tile of a field
      */
     public RegularTile getRegularTile() {
-        /*// If the field contains the project tile
-        if (x == 2 && y ==4) return null;
-        if (x == 4 && y ==3) return null;
-        if (x == 3 && y ==1) return null;*/
         return (RegularTile) tile;
     }
 

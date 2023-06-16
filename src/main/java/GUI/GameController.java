@@ -257,7 +257,7 @@ public class GameController implements Initializable {
     }
 
     /**
-     * Saves the game
+     * Saves the game to a chosen file and returns to the welcome screen
      */
     @FXML
     void save() {
@@ -270,6 +270,18 @@ public class GameController implements Initializable {
             path = selectedFile.getPath();
 
         }
+        Stage stage = (Stage) hexboard.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcomescreen.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene (root);
+        stage.setScene(scene);
+        stage.setResizable(true);
+        stage.show();
     }
 
     /**
@@ -291,7 +303,6 @@ public class GameController implements Initializable {
      */
     @FXML
     void handTileOnClick(MouseEvent event) {
-        System.out.println("handTileOnClick");
         chosenButton = null;
         chosenCat = null;
         if (game.isFirstTurn()) {
@@ -300,7 +311,6 @@ public class GameController implements Initializable {
             }
         } else {
             if (event.getTarget() instanceof Polygon) {
-                System.out.println("aaaa");
                 chosenRegularTile = ((Polygon) event.getTarget());
             }
         }
@@ -382,7 +392,6 @@ public class GameController implements Initializable {
             chosenRegularTile = null;
             chosenButton = null;
             chosenButtonColor = null;
-            System.out.println(event.getTarget());
             int catIndex = Integer.parseInt(event.getTarget().toString().substring(16, 17));
             int it = 0;
             Cat[] cats = new Cat[3];
@@ -390,18 +399,9 @@ public class GameController implements Initializable {
                 cats[it] = cat;
                 it++;
             }
-            //System.out.println(chosenCatImage.toString());
             chosenCat = game.getCatBoards().get(cats[catIndex]);
-            System.out.println("Wybrany kot: " + chosenCat);
-            System.out.println("Z " + game.getCatBoards());
         }
     }
-
-    /**
-     * TODO
-     * The Tours.
-     */
-    int tours = 0;
 
     /**
      * Sets the label content, responsible for displaying info about player
@@ -441,7 +441,6 @@ public class GameController implements Initializable {
         int childrenLength = hexboard.getChildren().size();
         for (int i = childrenLength - 1; i >= 0; i--) {
             if (hexboard.getChildren().get(i) instanceof ImageView) {
-                System.out.println("imageview usuwa image");
                 hexboard.getChildren().remove(i);
             }
         }
@@ -740,12 +739,6 @@ public class GameController implements Initializable {
      */
     @FXML
     void clickDetected(MouseEvent event) {
-        System.out.println("clickDetected");
-        System.out.println("chosenButton: " + (chosenButton != null) + "\n");
-        System.out.print("chosenRegularTile: " + (chosenRegularTile != null) + "\n");
-        System.out.print("chosenColor: " + (chosenButtonColor != null) + "\n");
-        System.out.print("chosenCat: " + (chosenCat != null) + "\n");
-        System.out.print("=========================");
         //projectTiles actions
         if (game.isFirstTurn()) {
             Polygon picked = null;
@@ -807,7 +800,6 @@ public class GameController implements Initializable {
                     hasMoved = true;
                 }
                 actionInfo.setText("Choose a tile from the table");
-                System.out.println("chosenRegularTile");
                 // To prevent left-over value from disturbing the program
                 chosenRegularTile = null;
             }
@@ -818,8 +810,6 @@ public class GameController implements Initializable {
                 if (chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
                     if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
                         addColorButton(chosenField, chosenButtonColor);
-                        System.out.println("chosenButton");
-                        System.out.println("Button set");
                         // To prevent left-over value from disturbing the program
                         chosenButton = null;
                         chosenButtonColor = null;
@@ -838,7 +828,6 @@ public class GameController implements Initializable {
             if (chosenCat != null) {
                 if (game.getPlayers()[game.getCurrentPlayer()].putCatButton(chosenCat, coordinates[0], coordinates[1])) {
                     addCatButton(chosenField, chosenCat.getCat());
-                    System.out.println("chosenCat");
                     chosenCat = null;
                 } else {
                     chosenCat = null;
@@ -1008,7 +997,7 @@ public class GameController implements Initializable {
         game = new Game(players);
         for (int i = 0; i < players; i++) {
             names[i] = GameDataSingleton.getInstance().getPlayerNames()[i];
-            System.out.println("name no. " + i + " " + names[i]);
+            System.out.println(names[i]);
         }
         //game = new Game(data.getNumberOfPlayers());
         showCats();
