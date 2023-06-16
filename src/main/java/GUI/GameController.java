@@ -333,6 +333,7 @@ public class GameController implements Initializable {
                 hexboard.getChildren().remove(i);
             }
         }
+        if ( tours == 4 ) gameEnd();
         if ( game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull() ) {
             gameEnd();
         }
@@ -364,7 +365,9 @@ public class GameController implements Initializable {
         for (int i = 0; i < game.getPlayers().length; i++) {
             scores[i] = game.getPlayers()[game.getCurrentPlayer()].getScore();
         }
-        GameDataMonostate mono = new GameDataMonostate(game);
+
+        GameDataSingleton.getInstance().setGame(game);
+
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle("Game over!");
         a.setHeaderText("The last player has finished their quilt!");
@@ -376,7 +379,7 @@ public class GameController implements Initializable {
             Stage stage = (Stage) hexboard.getScene().getWindow();
             stage.setTitle("Summary");
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/endgame.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("scoreboard.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
@@ -798,7 +801,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        GameDataMonostate data = new GameDataMonostate();
+        int players = GameDataSingleton.getInstance().getNumberOfPlayers();
         game = new Game(2);
         //game = new Game(data.getNumberOfPlayers());
         showCats();

@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class WelcomeScreenController {
-    private GameDataMonostate data;
+    private GameDataSingleton data;
 
     @FXML
     private Button number1;
@@ -25,23 +25,23 @@ public class WelcomeScreenController {
 
     @FXML
     public void button1(MouseEvent e) {
-        data = new GameDataMonostate(1);
+        GameDataSingleton.getInstance().setNumberOfPlayers(2);
         changeScene(e);
     }
     @FXML
     public void button2(MouseEvent e) {
-        data = new GameDataMonostate(2);
-        changeScene(e);
+        //data = new GameDataMonostate(2);
+        //changeScene(e);
     }
     @FXML
     public void button3(MouseEvent e) {
-        data = new GameDataMonostate(3);
-        changeScene(e);
+        //data = new GameDataMonostate(3);
+        //changeScene(e);
     }
     @FXML
     public void button4(MouseEvent e) {
-        data = new GameDataMonostate(4);
-        changeScene(e);
+        //data = new GameDataMonostate(4);
+        //changeScene(e);
     }
 
     public void changeScene(MouseEvent e) {

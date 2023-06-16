@@ -3,34 +3,44 @@ package GUI;
 import gamepackage.Game;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameEndController implements Initializable {
-    Game game;
     @FXML
-    GridPane scoresBoard;
+    GridPane scoreBoard;
     @FXML
-    TextField p1;
+    private Label player1;
     @FXML
-    TextField p2;
+    private Label player2;
     @FXML
-    TextField p3;
+    private Label player3;
     @FXML
-    TextField p4;
+    private Label player4;
 
-
-    void initialize() {
-        p1.setText("Halo prosze");
+    Game game = GameDataSingleton.getGame();
+    int[] scores;
+    void start() {
+         scores = new int[game.getPlayers().length];
+        for (int i = 0; i < scores.length; i++) {
+            scores[i] = game.getPlayers()[game.getCurrentPlayer()].getScore();
+        }
+        fill();
     }
+    void fill() {
+        player1.setText("1. ##name##: " + scores[0]);
+        player2.setText("2.####name#: " + scores[1]);
+    }
+    @FXML
+    void goBackToLobby(MouseEvent e) {
 
-
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        game = GameDataMonostate.getGame();
-        initialize();
+        start();
     }
 }
