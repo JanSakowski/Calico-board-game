@@ -802,7 +802,11 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         int players = GameDataSingleton.getInstance().getNumberOfPlayers();
-        game = new Game(2);
+        game = new Game(players);
+        for (int i = 0; i < players; i++) {
+            names[i] = GameDataSingleton.getInstance().getPlayerNames()[i];
+            System.out.println("name no. " + i + " " + names[i]);
+        }
         //game = new Game(data.getNumberOfPlayers());
         showCats();
         initializeButtons();

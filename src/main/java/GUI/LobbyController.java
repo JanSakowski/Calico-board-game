@@ -26,18 +26,29 @@ public class LobbyController implements Initializable {
     @FXML
     private ChoiceBox<String> numberOfPlayers;
     private String currentMode;
-
+    private String[] names = new String[4];
+    int numberChosen = 0;
     @FXML
-    private void go() {
-
+    private void go() throws IOException {
+        if (numberOfPlayers.equals("")) {
+            return;
+        }
+        GameDataSingleton.getInstance().setNumberOfPlayers(numberChosen);
+        GameDataSingleton.getInstance().setPlayerNames(names);
+        Stage stage = (Stage) numberOfPlayers.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene (root);
+        stage.setScene(scene);
+        stage.setResizable(true);
+        stage.show();
     }
-
     @FXML
     private void goBack() throws IOException {
         Stage stage = (Stage) numberOfPlayers.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("welcomescreen.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene (root);
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
@@ -45,30 +56,45 @@ public class LobbyController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        numberOfPlayers.getItems().addAll("2 players", "3 players", "4 players");
-        numberOfPlayers.setValue("4 players");
+        numberOfPlayers.getItems().addAll("2","3","4");
+        numberOfPlayers.setValue("");
         numberOfPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 currentMode = numberOfPlayers.getSelectionModel().getSelectedItem();
-                switch (currentMode) {
-                    case "2 players" -> {
+                switch (currentMode){
+                    case "2" ->{
                         p3.setVisible(false);
                         p3Name.setVisible(false);
                         p4.setVisible(false);
                         p4Name.setVisible(false);
+
+                        names[0] = p1Name.getText();
+                        names[1] = p2Name.getText();
+                        numberChosen = 2;
                     }
-                    case "3 players" -> {
+                    case "3" ->{
                         p3.setVisible(true);
                         p3Name.setVisible(true);
                         p4.setVisible(false);
                         p4Name.setVisible(false);
+
+                        names[0] = p1Name.getText();
+                        names[1] = p2Name.getText();
+                        names[2] = p3Name.getText();
+                        numberChosen = 3;
                     }
-                    case "4 players" -> {
+                    case "4" ->{
                         p3.setVisible(true);
                         p3Name.setVisible(true);
                         p4.setVisible(true);
                         p4Name.setVisible(true);
+
+                        names[0] = p1Name.getText();
+                        names[1] = p2Name.getText();
+                        names[2] = p3Name.getText();
+                        names[3] = p4Name.getText();
+                        numberChosen = 4;
                     }
                 }
             }
