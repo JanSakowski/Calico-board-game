@@ -11,7 +11,7 @@
     -fx-background-size: 100% 100%;
 }
 .background{
-    -fx-background-image: url("tło.png");
+    -fx-background-image: url("background.png");
     -fx-background-size: 100% 100%;
 }
 .player-label {
@@ -29,4 +29,8 @@
     dropshadow(gaussian, white, 0, 0.07, 2, 2),
     dropshadow(gaussian, white, -0.07, 0, 2, 2),
     dropshadow(gaussian, white, 0, -0.07, 2, 2);
+}
+.background-welcome{
+    -fx-background-image: url("welcome_background.png");
+    -fx-background-size: 100% 100%;
 }

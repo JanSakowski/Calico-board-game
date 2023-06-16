@@ -214,6 +214,7 @@ public class GameController implements Initializable {
             }
         } else {
             if (event.getTarget() instanceof Polygon) {
+                System.out.println("aaaa");
                 chosenRegularTile = ((Polygon) event.getTarget());
             }
         }
@@ -328,7 +329,6 @@ public class GameController implements Initializable {
                 hexboard.getChildren().remove(i);
             }
         }
-        if ( tours == 4) gameEnd();
         if ( game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull() ) {
             gameEnd();
         }
@@ -520,7 +520,7 @@ public class GameController implements Initializable {
 
     @FXML
     private void showButtons(Player player) {
-        colorButtons.getChildren().clear();
+        colorButtons.getChildren().clear();;
         if (player == game.getPlayers()[game.getCurrentPlayer()]) {
             colorButtons.add(yellow, 0, 0);
             colorButtons.add(pink, 0, 1);
