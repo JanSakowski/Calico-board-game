@@ -1,11 +1,12 @@
 package GUI;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -15,33 +16,45 @@ public class WelcomeScreenController {
     private GameDataSingleton data;
 
     @FXML
-    private Button number1;
-    @FXML
-    private Button number2;
-    @FXML
-    private Button number3;
-    @FXML
-    private Button number4;
+    private Button loadGame, newGame, exit;
 
     @FXML
-    public void button1(MouseEvent e) {
-        GameDataSingleton.getInstance().setNumberOfPlayers(2);
-        changeScene(e);
+    public void newGame() throws IOException {
+        Stage stage = (Stage) exit.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(true);
+        stage.show();
+    }
+
+    @FXML
+    public void exit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Confirmation");
+        alert.setHeaderText("Do you really want to exit?");
+        alert.setContentText("Choose your option.");
+        ButtonType buttonOK = ButtonType.YES;
+        ButtonType buttonCancel = ButtonType.NO;
+        alert.getButtonTypes().setAll(buttonOK, buttonCancel);
+        alert.setOnCloseRequest(new EventHandler<DialogEvent>() {
+            @Override
+            public void handle(DialogEvent event) {
+                ButtonType result = alert.getResult();
+                if (result == buttonOK) {
+                    ((Stage)exit.getScene().getWindow()).close();
+                } else {
+                    event.consume(); // Consume the event to prevent closing
+                }
+            }
+        });
+
+        alert.showAndWait();
     }
     @FXML
-    public void button2(MouseEvent e) {
-        //data = new GameDataMonostate(2);
-        //changeScene(e);
-    }
-    @FXML
-    public void button3(MouseEvent e) {
-        //data = new GameDataMonostate(3);
-        //changeScene(e);
-    }
-    @FXML
-    public void button4(MouseEvent e) {
-        //data = new GameDataMonostate(4);
-        //changeScene(e);
+    public void loadGame(MouseEvent e) {
+
     }
 
     public void changeScene(MouseEvent e) {
