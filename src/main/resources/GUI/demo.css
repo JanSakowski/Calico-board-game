@@ -6,10 +6,6 @@
     -fx-max-height: 30px;*/
     -fx-background-color: transparent;
 }
-.grid-pane {
-    -fx-background-image: url("pojemniki.png");
-    -fx-background-size: 100% 100%;
-}
 .background{
     -fx-background-image: url("background.png");
     -fx-background-size: 100% 100%;
