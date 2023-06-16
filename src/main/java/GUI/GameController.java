@@ -450,9 +450,6 @@ public class GameController implements Initializable {
                 hexboard.getChildren().remove(i);
             }
         }
-        if (game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull()) {
-            gameEnd();
-        }
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 Polygon hexagon = getHexagon(i, j);
@@ -987,7 +984,9 @@ public class GameController implements Initializable {
 
                     chosenCat = null;
                 }
-
+            }
+            if (game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull()) {
+                gameEnd();
             }
         }
     }
