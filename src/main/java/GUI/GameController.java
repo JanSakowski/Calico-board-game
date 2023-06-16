@@ -485,8 +485,9 @@ public class GameController implements Initializable {
     public void gameEnd() {
         int[] scores = new int[game.getPlayers().length];
         for (int i = 0; i < game.getPlayers().length; i++) {
-            scores[i] = game.getPlayers()[game.getCurrentPlayer()].getScore();
+            scores[i] = game.getPlayers()[i].getScore();
         }
+
 
         GameDataSingleton.getInstance().setGame(game);
 
