@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GameEndController">
    <children>
       <Text layoutX="29.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scores:" wrappingWidth="238.93670654296875">
          <font>
@@ -25,22 +25,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="p1" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="238.93670654296875">
+            <Text fx:id="p1" strokeType="OUTSIDE" strokeWidth="0.0" text="Aaaaa" wrappingWidth="238.93670654296875">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="p2" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="238.93670654296875" GridPane.rowIndex="1">
+            <Text fx:id="p2" strokeType="OUTSIDE" strokeWidth="0.0" text="Bbbbbb" wrappingWidth="238.93670654296875" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="p3" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="238.93670654296875" GridPane.rowIndex="2">
+            <Text fx:id="p3" strokeType="OUTSIDE" strokeWidth="0.0" text="Ccccccc" wrappingWidth="238.93670654296875" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="p4" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="238.93670654296875" GridPane.rowIndex="3">
+            <Text fx:id="p4" strokeType="OUTSIDE" strokeWidth="0.0" text="Ddddddddd" wrappingWidth="238.93670654296875" GridPane.rowIndex="3">
                <font>
                   <Font size="24.0" />
                </font>

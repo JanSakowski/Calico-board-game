@@ -5,11 +5,14 @@ import gamepackage.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +27,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -367,14 +371,22 @@ public class GameController implements Initializable {
         a.setContentText("Let's sum up your points!");
         a.showAndWait();
 
-        GameEndApplication newController = new GameEndApplication();
+
         try {
-            newController.start(new Stage());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            Stage stage = (Stage) hexboard.getScene().getWindow();
+            stage.setTitle("Summary");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/endgame.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            System.out.println("Error loading the scene");
         }
-
-
     }
 
     private void changeFill(Polygon hexagon, String path) {
