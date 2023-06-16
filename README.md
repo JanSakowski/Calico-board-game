@@ -16,10 +16,13 @@ https://www.alderac.com/wp-content/uploads/2020/09/Calico-Rules.pdf
 
 ```
 git clone https://gitlab-stud.elka.pw.edu.pl/mtopolsk/apro2_23l_pro_pt_3.4_calico.git
-mvn clean install
 ```
+
+After cloning, it is necessary to rebuild the project using pom.xml file.
+
 ## Gameplay
 
+In order to start the application, you have to run CalicoApplication's main method.
 The user interface is very intuitive and, as long as you know the game rules, 
 you shouldn't have any troubles playing. During game, it is possible to spectate other players'
 boards using 'A' and 'D' keys. Game ends automatically, when all the players have no space on
