@@ -23,6 +23,7 @@ public class GameEndController implements Initializable {
     private Label player4;
 
     Game game = GameDataSingleton.getGame();
+    String[] names = GameDataSingleton.getInstance().getPlayerNames();
     int[] scores;
     void start() {
          scores = new int[game.getPlayers().length];
@@ -32,8 +33,17 @@ public class GameEndController implements Initializable {
         fill();
     }
     void fill() {
-        player1.setText("1. ##name##: " + scores[0]);
-        player2.setText("2.####name#: " + scores[1]);
+        if (game.getPlayers().length >= 2){
+            player1.setText(1 + " " + names[0] + "~~~~> score: " + scores[0]);
+            player2.setText(2 + " " + names[1] + "~~~~> score: " + scores[1]);
+        }
+        if (game.getPlayers().length >= 3) {
+            player3.setText(3 + " " + names[2] + "~~~~> score: " + scores[2]);
+        }
+        if (game.getPlayers().length == 4) {
+            player3.setText(4 + " " + names[3] + "~~~~> score: " + scores[3]);
+        }
+
     }
     @FXML
     void goBackToLobby(MouseEvent e) {

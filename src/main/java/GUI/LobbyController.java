@@ -29,9 +29,9 @@ public class LobbyController implements Initializable {
     private String[] names = new String[4];
     int numberChosen = 0;
     @FXML
-    private void go() throws IOException {
+    private int go() throws IOException {
         if (numberOfPlayers.equals("")) {
-            return;
+            return -1;
         }
         GameDataSingleton.getInstance().setNumberOfPlayers(numberChosen);
         GameDataSingleton.getInstance().setPlayerNames(names);
@@ -42,6 +42,7 @@ public class LobbyController implements Initializable {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
+        return 1;
     }
     @FXML
     private void goBack() throws IOException {
