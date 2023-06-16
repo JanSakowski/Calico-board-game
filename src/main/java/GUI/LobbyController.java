@@ -29,20 +29,18 @@ public class LobbyController implements Initializable {
     private String[] names = new String[4];
     int numberChosen = 0;
     @FXML
-    private int go() throws IOException {
-        if (numberOfPlayers.equals("")) {
-            return -1;
+    private void go() throws IOException {
+        if (!numberOfPlayers.equals("")) {
+            GameDataSingleton.getInstance().setNumberOfPlayers(numberChosen);
+            GameDataSingleton.getInstance().setPlayerNames(names);
+            Stage stage = (Stage) numberOfPlayers.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(true);
+            stage.show();
         }
-        GameDataSingleton.getInstance().setNumberOfPlayers(numberChosen);
-        GameDataSingleton.getInstance().setPlayerNames(names);
-        Stage stage = (Stage) numberOfPlayers.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene (root);
-        stage.setScene(scene);
-        stage.setResizable(true);
-        stage.show();
-        return 1;
     }
     @FXML
     private void goBack() throws IOException {

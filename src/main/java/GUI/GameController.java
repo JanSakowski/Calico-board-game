@@ -314,8 +314,6 @@ public class GameController implements Initializable {
         }
     }
 
-    int tours = 0;
-
     private void setPlayerInfo(Player player) {
         StringBuilder label = new StringBuilder();
         if (player == game.getPlayers()[game.getCurrentPlayer()]) {
@@ -330,7 +328,6 @@ public class GameController implements Initializable {
 
     @FXML
     void showPlayersBoard(Player player) {
-        tours++;
         if (game.isFirstTurn()) {
             actionInfo.setText("Put project tiles on your quilt");
         } else actionInfo.setText("Put a tile on your quilt");
@@ -349,7 +346,6 @@ public class GameController implements Initializable {
                 hexboard.getChildren().remove(i);
             }
         }
-        if (tours == 4) gameEnd();
         if (game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull()) {
             gameEnd();
         }
@@ -654,7 +650,7 @@ public class GameController implements Initializable {
             }
 
             // When a button is chosen and the designated field contains a tile
-            if (chosenButton != null && game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile() != null) {
+            if (chosenButton != null && game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor() != null) {
                 // When the chosen color matches the color of field's tile
                 if (chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
                     if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
