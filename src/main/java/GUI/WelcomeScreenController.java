@@ -8,8 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class WelcomeScreenController {
@@ -43,7 +45,7 @@ public class WelcomeScreenController {
             public void handle(DialogEvent event) {
                 ButtonType result = alert.getResult();
                 if (result == buttonOK) {
-                    ((Stage)exit.getScene().getWindow()).close();
+                    ((Stage) exit.getScene().getWindow()).close();
                 } else {
                     event.consume(); // Consume the event to prevent closing
                 }
@@ -52,22 +54,18 @@ public class WelcomeScreenController {
 
         alert.showAndWait();
     }
+
     @FXML
-    public void loadGame(MouseEvent e) {
+    public void loadGame() {
+        String path;
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File selectedFile = fileChooser.showOpenDialog((Stage) exit.getScene().getWindow());
+        if (selectedFile != null) {
+            path = selectedFile.getPath();
 
-    }
-
-    public void changeScene(MouseEvent e) {
-        try {
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setResizable(false);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            System.out.println("Error loading the scene");
         }
     }
+    
 }

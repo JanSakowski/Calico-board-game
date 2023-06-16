@@ -25,8 +25,10 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -47,7 +49,7 @@ public class GameController implements Initializable {
     private Polygon chosenProjectTile = null;
     private Polygon chosenRegularTile = null;
     private int spectatedPlayer = 0;
-    String[] names = {"a","b","c","d"};
+    String[] names = {"a", "b", "c", "d"};
     @FXML
     private Button endTurn, pink, yellow, rainbow, lblue, dblue, green, purple;
     private int[] pickedProjectTiles;
@@ -201,6 +203,19 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    void save() {
+        String path;
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File selectedFile = fileChooser.showSaveDialog((Stage)cat0.getScene().getWindow());
+        if (selectedFile != null) {
+            path = selectedFile.getPath();
+
+        }
+    }
+
+    @FXML
     void projectTileOnClick(MouseEvent event) {
         if (event.getTarget() instanceof Polygon) {
             chosenProjectTile = ((Polygon) event.getTarget());
@@ -298,26 +313,27 @@ public class GameController implements Initializable {
             System.out.println("Z " + game.getCatBoards());
         }
     }
+
     int tours = 0;
-    private void setPlayerInfo(Player player){
+
+    private void setPlayerInfo(Player player) {
         StringBuilder label = new StringBuilder();
         if (player == game.getPlayers()[game.getCurrentPlayer()]) {
             label.append("Your board");
-        }
-        else {
+        } else {
             label.append("You're spectating ");
             label.append(names[spectatedPlayer]);
             label.append("'s board");
         }
         playerInfo.setText(label.toString());
     }
+
     @FXML
     void showPlayersBoard(Player player) {
         tours++;
-        if (game.isFirstTurn()){
+        if (game.isFirstTurn()) {
             actionInfo.setText("Put project tiles on your quilt");
-        }
-        else actionInfo.setText("Put a tile on your quilt");
+        } else actionInfo.setText("Put a tile on your quilt");
         if (hasMoved) actionInfo.setText("Choose a tile from the table");
         if (hasMoved && tookFromTable) actionInfo.setText("Put a button on your quilt or end turn");
         showButtons(player);
@@ -333,8 +349,8 @@ public class GameController implements Initializable {
                 hexboard.getChildren().remove(i);
             }
         }
-        if ( tours == 4 ) gameEnd();
-        if ( game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull() ) {
+        if (tours == 4) gameEnd();
+        if (game.getPlayers()[game.getCurrentPlayer()].getBoard().isFull()) {
             gameEnd();
         }
         for (int i = 0; i < 7; i++) {
@@ -360,8 +376,9 @@ public class GameController implements Initializable {
             }
         }
     }
+
     public void gameEnd() {
-        int[] scores = new int [game.getPlayers().length];
+        int[] scores = new int[game.getPlayers().length];
         for (int i = 0; i < game.getPlayers().length; i++) {
             scores[i] = game.getPlayers()[game.getCurrentPlayer()].getScore();
         }
@@ -535,7 +552,8 @@ public class GameController implements Initializable {
 
     @FXML
     private void showButtons(Player player) {
-        colorButtons.getChildren().clear();;
+        colorButtons.getChildren().clear();
+        ;
         if (player == game.getPlayers()[game.getCurrentPlayer()]) {
             colorButtons.add(yellow, 0, 0);
             colorButtons.add(pink, 0, 1);
@@ -544,8 +562,7 @@ public class GameController implements Initializable {
             colorButtons.add(dblue, 1, 1);
             colorButtons.add(lblue, 1, 2);
             colorButtons.add(rainbow, 0, 3);
-        }
-        else actionInfo.setText("");
+        } else actionInfo.setText("");
     }
 
     @FXML
@@ -556,18 +573,19 @@ public class GameController implements Initializable {
     StringBuilder putTileMessage = new StringBuilder();
     StringBuilder giveMessage = new StringBuilder();
 
-    private void returnOnHand(Polygon polygon, int column){
+    private void returnOnHand(Polygon polygon, int column) {
         onHand.add(polygon, column, 0);
         onHand.setHalignment(polygon, HPos.CENTER);
         onHand.setValignment(polygon, VPos.CENTER);
     }
+
     @FXML
     void clickDetected(MouseEvent event) {
         System.out.println("clickDetected");
-        System.out.println("chosenButton: " + (chosenButton!=null) + "\n");
-        System.out.print("chosenRegularTile: " + (chosenRegularTile!=null) + "\n");
-        System.out.print("chosenColor: " + (chosenButtonColor!=null) + "\n");
-        System.out.print("chosenCat: " + (chosenCat!=null) + "\n");
+        System.out.println("chosenButton: " + (chosenButton != null) + "\n");
+        System.out.print("chosenRegularTile: " + (chosenRegularTile != null) + "\n");
+        System.out.print("chosenColor: " + (chosenButtonColor != null) + "\n");
+        System.out.print("chosenCat: " + (chosenCat != null) + "\n");
         System.out.print("=========================");
         //projectTiles actions
         if (game.isFirstTurn()) {
@@ -600,7 +618,7 @@ public class GameController implements Initializable {
                         //switch project tiles
                         int returnIndex = pickedProjectTiles[pickedIndex];
                         pickedProjectTiles[pickedIndex] = onHand.getColumnIndex(chosenProjectTile);
-                        returnOnHand(switchProjectTiles(chosenProjectTile, picked),returnIndex);
+                        returnOnHand(switchProjectTiles(chosenProjectTile, picked), returnIndex);
                         chosenProjectTile = null;
                     }
                 } else {
@@ -616,7 +634,8 @@ public class GameController implements Initializable {
                     actionInfo.setText("Put project tiles on your quilt");
                 }
             }
-            if (!(pickedProjectTiles[0] == -1 || pickedProjectTiles[1] == -1 || pickedProjectTiles[2] == -1)) actionInfo.setText("End turn");
+            if (!(pickedProjectTiles[0] == -1 || pickedProjectTiles[1] == -1 || pickedProjectTiles[2] == -1))
+                actionInfo.setText("End turn");
         } else {
             //regularTiles actions
             Polygon chosenField = (Polygon) event.getTarget();
@@ -637,7 +656,7 @@ public class GameController implements Initializable {
             // When a button is chosen and the designated field contains a tile
             if (chosenButton != null && game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile() != null) {
                 // When the chosen color matches the color of field's tile
-                if ( chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
+                if (chosenButtonColor == game.getPlayers()[game.getCurrentPlayer()].getBoard().getField(coordinates[0], coordinates[1]).getRegularTile().getColor()) {
                     if (game.getPlayers()[game.getCurrentPlayer()].putColorButton(coordinates[0], coordinates[1])) {
                         addColorButton(chosenField, chosenButtonColor);
                         System.out.println("chosenButton");
